@@ -1,2 +1,2 @@
-# Testes_Numericos_Tese
-Conjunto de testes numéricos para o algoritmo LOWDER e outros arquivos úteis.
+# LOWDER - Numerical tests
+Numeric test suite for the LOWDER algorithm and other useful files.
