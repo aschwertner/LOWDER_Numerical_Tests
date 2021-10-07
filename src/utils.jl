@@ -259,29 +259,29 @@ function problem_generator(
 
         function f11a(x, ti)
 
-            sum = 0.0
+            s = 0.0
 
             for j = 2:length(x)
 
-                sum += ( j - 1.0 ) * x[j] * ti ^ ( j - 2.0 )
+                s += ( j - 1.0 ) * x[j] * ti ^ ( j - 2.0 )
 
             end
 
-            return sum
+            return s
 
         end
 
         function f11b(x, ti)
 
-            sum = 0.0
+            s = 0.0
 
             for j = 1:length(x)
 
-                sum += x[j] * ti ^ ( j - 1.0 )
+                s += x[j] * ti ^ ( j - 1.0 )
 
             end
 
-            return sum
+            return s
 
         end
 
@@ -533,17 +533,17 @@ function problem_generator(
 
         for i = 1:n
 
-            sum = 0.0
+            s = 0.0
         
             for j = 1:n
         
                 ti = i / j
         
-                sum += sqrt( ti ) * ( ( sin( log( sqrt( ti ) ) ) ) ^ 5.0 + ( cos( log( sqrt( ti ) ) ) ) ^ 5.0  ) 
+                s += sqrt( ti ) * ( ( sin( log( sqrt( ti ) ) ) ) ^ 5.0 + ( cos( log( sqrt( ti ) ) ) ) ^ 5.0  ) 
         
             end
         
-            x[i] = - 8.710996 - 4.0 * ( ( i - 50.0 ) ^ 3.0 + sum )
+            x[i] = - 8.710996 - 4.0 * ( ( i - 50.0 ) ^ 3.0 + s )
         
         end
 
@@ -553,16 +553,16 @@ function problem_generator(
 
         function f21(x, i)
 
-            sum = 0.0
+            s = 0.0
 
             for j = 1:length(x)
 
                 v = sqrt( x[i] ^ 2.0 + i / j )
-                sum += v * ( ( sin( log( v ) ) ) ^ 5.0 + ( cos( log( v ) ) ) ^ 5.0 )
+                s += v * ( ( sin( log( v ) ) ) ^ 5.0 + ( cos( log( v ) ) ) ^ 5.0 )
 
             end
 
-            return sum
+            return s
 
         end
 
