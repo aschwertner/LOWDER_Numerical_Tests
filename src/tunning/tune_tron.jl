@@ -2,33 +2,45 @@ using JSOSolvers: tron
 using NLPModels, CUTEst
 
 # All problems with at most bounds
-const problems = [CUTEst.select(conttype="U"),
-                  CUTEst.select(conttype="B")]
+const problems = [CUTEst.select(contype="unc");
+                  CUTEst.select(contype="bounds")]
 
 # Code to generate several f_i's
 
 fcnt = 0
 
-flist = []
+const flist = []
 
 for par1 in [:true, :false]
     for par2 in [-1, 1000, 5000, 10000]
+
+        global fcnt += 1
+        local fname = Symbol("f", fcnt)
+            
         @eval begin
 
-            fcnt += 1
-            f = Symbol("f", fcnt)
-            
-function ($f)(x)
+function ($fname)(x)
 
     μ0, μ1, σ, cgtol = x
 
-    for p in problems:
+    for p in problems
 
         nlp = CUTEstModel(p)
 
-        s = tron(nlp; μ₀=μ0, μ₁=μ1, σ=σ, cgtol=cgtol,
-                 # These arguments define uniquely the solver
-                 use_only_objgrad=$par1, max_eval=$par2)
+        try
+        
+            s = tron(nlp; μ₀=μ0, μ₁=μ1, σ=σ, cgtol=cgtol,
+                     # These arguments define uniquely the solver
+                     use_only_objgrad=$par1, max_eval=$par2)
+
+            # Finalize model
+            finalize(nlp)
+
+        catch e
+
+            finalize(nlp)
+
+        end
 
         # Do something with s
 
@@ -39,7 +51,7 @@ function ($f)(x)
 
 end
 
-            push!(flist, $f)
+            push!(flist, $fname)
             
         end
     end
