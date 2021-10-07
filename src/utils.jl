@@ -593,6 +593,12 @@ function problem_generator(
 
     end
 
+    if rsp
+
+        x *= 10.0
+
+    end
+
     return x, l, u, fmin
 
 end
