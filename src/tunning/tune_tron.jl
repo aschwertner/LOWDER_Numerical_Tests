@@ -5,7 +5,20 @@ using NLPModels, CUTEst
 const problems = [CUTEst.select(conttype="U"),
                   CUTEst.select(conttype="B")]
 
-function f1(x)
+# Code to generate several f_i's
+
+fcnt = 0
+
+flist = []
+
+for par1 in [:true, :false]
+    for par2 in [-1, 1000, 5000, 10000]
+        @eval begin
+
+            fcnt += 1
+            f = Symbol("f", fcnt)
+            
+function ($f)(x)
 
     μ0, μ1, σ, cgtol = x
 
@@ -15,7 +28,7 @@ function f1(x)
 
         s = tron(nlp; μ₀=μ0, μ₁=μ1, σ=σ, cgtol=cgtol,
                  # These arguments define uniquely the solver
-                 use_only_objgrad=true, max_eval=1000)
+                 use_only_objgrad=$par1, max_eval=$par2)
 
         # Do something with s
 
@@ -24,4 +37,10 @@ function f1(x)
     # Return some value associated with a performance profile?
     return 0
 
+end
+
+            push!(flist, $f)
+            
+        end
+    end
 end
