@@ -2,8 +2,13 @@ using JSOSolvers: tron
 using NLPModels, CUTEst
 
 # All problems with at most bounds
-const problems = [CUTEst.select(contype="unc");
-                  CUTEst.select(contype="bounds")]
+#const problems = [CUTEst.select(contype="unc");
+#                  CUTEst.select(contype="bounds")]
+
+# Easy problems
+const problems = setdiff(CUTEst.select(max_var=2, contype="unc"),
+                         # Remove the problem(s) below
+                         ["S308NE"])
 
 # Code to generate several f_i's
 
