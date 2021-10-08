@@ -21,6 +21,7 @@ for par1 in [:true, :false]
 
         global fcnt += 1
         local fname = Symbol("f", fcnt)
+        local MAX_TIME = 2.0
             
         @eval begin
 
@@ -28,31 +29,63 @@ function ($fname)(x)
 
     μ0, μ1, σ, cgtol = x
 
-    for p in problems
+    total_time = 0.0
+
+    n_solved = 0
+    
+    for p in $problems
 
         nlp = CUTEstModel(p)
 
         try
-        
-            s = tron(nlp; μ₀=μ0, μ₁=μ1, σ=σ, cgtol=cgtol,
-                     # These arguments define uniquely the solver
-                     use_only_objgrad=$par1, max_eval=$par2)
+
+            s = nothing
+
+            with_logger(NullLogger()) do
+                
+                s = tron(nlp; μ₀=μ0, μ₁=μ1, σ=σ, cgtol=cgtol,
+                         max_time=$MAX_TIME,
+                         # These arguments define uniquely the solver
+                         use_only_objgrad=$par1, max_eval=$par2)
+
+            end
+            
+            # Do something with s
+
+            if s.status == :first_order
+
+                total_time += s.elapsed_time
+                n_solved += 1
+
+            else
+
+                total_time += 2 * $MAX_TIME
+
+            end
 
             # Finalize model
             finalize(nlp)
 
         catch e
 
+            # show(nlp)
+
+            # show(e)
+
             finalize(nlp)
+
+            return Inf
 
         end
 
-        # Do something with s
-
     end
 
-    # Return some value associated with a performance profile?
-    return 0
+    ($fcnt == 7) && (return 666.66)
+    
+    # Return total execution time
+    return total_time
+    # Return ratio of solved problems
+    #return - n_solved / $(length(problems))
 
 end
 
