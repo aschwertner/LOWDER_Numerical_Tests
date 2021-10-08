@@ -94,3 +94,8 @@ end
         end
     end
 end
+
+# Bounds for μ0, μ1, σ, cgtol
+const l = [      1.0e-8, 3/4,    1.1, 1.0e-8];
+const u = [3/4 - 1.0e-8, 1.0, 1.0e-3, 9.0e-1];
+;
