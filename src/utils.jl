@@ -2,20 +2,21 @@ function problem_generator(
                             nprob::Int64,
                             n::Int64,
                             m::Int64,
-                            rsp::Bool
+                            rsp::Bool;
+                            unconstrained::Bool=false,
+                            x::Vector{Float64}=( NaN * ones(Float64, n) )
                             )
 
     @assert 0 ≤ nprob ≤ 22 "The number of the problem must satisfy 0 ≤ nprob ≤ 22."
+    @assert length(x) == n "The dimension of vetor x must be n."
 
-    function l_val(x)
+    # Initializes some useful variables and constants
+    c_lower = - 1.0e20
+    c_upper = 1.0e20
 
-        return 10.0 * min( 0.0, minimum( x ) )
+    if isnan( x[1] )
 
-    end
-
-    function u_val(x)
-
-        return 10.0 * max( 0.0, maximum( x ) )
+        usual_init_point = true
 
     end
 
@@ -25,9 +26,24 @@ function problem_generator(
 
         @assert m ≥ n "The dimensions of the problem must satisfy m ≥ n."
 
-        x = ones(Float64, n)
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = 1.0
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         c = 2.0 / m
 
@@ -49,9 +65,24 @@ function problem_generator(
 
         @assert m ≥ n "The dimensions of the problem must satisfy m ≥ n."
 
-        x = ones(Float64, n)
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = 1.0
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         function f2(x)
@@ -80,9 +111,24 @@ function problem_generator(
 
         @assert m ≥ n "The dimensions of the problem must satisfy m ≥ n."
 
-        x = ones(Float64, n)
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = 1.0
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         function f3(x)
@@ -113,9 +159,24 @@ function problem_generator(
 
         @assert ( n == 2 ) && ( m == 2 ) "The dimensions of the problem must satisfy n = m = 2."
 
-        x = [-1.2, 1.0]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [-1.2, 1.0]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         fmin[1] = x -> ( 10.0 * ( x[2] - x[1] ^ 2.0 ) ) ^ 2.0
         fmin[2] = x -> ( 1.0 - x[1] ) ^ 2.0
@@ -126,9 +187,24 @@ function problem_generator(
 
         @assert ( n == 3 ) && ( m == 3 ) "The dimensions of the problem must satisfy n = m = 3."
 
-        x = [-1.0, 0.0, 0.0]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [-1.0, 0.0, 0.0]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         
         function f5(x)
@@ -159,9 +235,24 @@ function problem_generator(
 
         @assert ( n == 4 ) && ( m == 4 ) "The dimensions of the problem must satisfy n = m = 4."
 
-        x = [3.0, -1.0, 0.0, 1.0]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [3.0, -1.0, 0.0, 1.0]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         fmin[1] = x -> ( x[1] + 10.0 * x[2] ) ^ 2.0
         fmin[2] = x -> 5.0 * ( x[3] - x[4] ) ^ 2.0
@@ -174,9 +265,24 @@ function problem_generator(
 
         @assert ( n == 2 ) && ( m == 2 ) "The dimensions of the problem must satisfy n = m = 2."
 
-        x = [0.5, -2.0]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [0.5, -2.0]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         fmin[1] = x -> ( - 13.0 + x[1] + ( ( 5.0 - x[2] ) * x[2] - 2.0 ) * x[2] ) ^ 2.0
         fmin[2] = x -> ( - 29.0 + x[1] + ( ( x[2] + 1.0 ) * x[2] - 14.0 ) * x[2] ) ^ 2.0
@@ -187,9 +293,24 @@ function problem_generator(
 
         @assert ( n == 3 ) && ( m == 15 ) "The dimensions of the problem must satisfy n = 3 e m = 15."
 
-        x = ones(Float64, n)
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = 1.0
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         y = [
@@ -213,9 +334,24 @@ function problem_generator(
 
         @assert ( n == 4 ) && ( m == 11 ) "The dimensions of the problem must satisfy n = 4 e m = 11."
 
-        x = [0.25, 0.39, 0.415, 0.39]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [0.25, 0.39, 0.415, 0.39]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         y = [ 0.1957, 0.1947, 0.1735, 0.16, 0.0844, 0.0627, 0.0456, 0.0342, 0.0323, 0.0235, 0.0246 ]
         u = [ 4.0, 2.0, 1.0, 0.5, 0.25, 0.167, 0.125, 0.1, 0.0833, 0.0714, 0.0625 ]
@@ -232,9 +368,24 @@ function problem_generator(
 
         @assert ( n == 3 ) && ( m == 16 ) "The dimensions of the problem must satisfy n = 3 e m = 16."
 
-        x = [0.02, 4000.0, 250.0] 
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [0.02, 4000.0, 250.0]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         y = [
                 34780.0, 28610.0, 23650.0, 19630.0, 16370.0, 13720.0, 11540.0, 9744.0,
@@ -247,14 +398,29 @@ function problem_generator(
         end
 
     elseif nprob == 11
-
+        
         # Watson function
 
         @assert ( 2 ≤ n ≤ 31 ) && ( m == 31 ) "The dimensions of the problem must satisfy 2 ≤ n ≤ 31 e m = 31."
 
-        x = zeros(Float64, n)
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = 0.0
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         function f11a(x, ti)
@@ -302,9 +468,24 @@ function problem_generator(
 
         @assert ( n == 3 ) && ( m ≥ n ) "The dimensions of the problem must satisfy n = 3 e m ≥ n."
 
-        x = [0.0, 10.0, 20.0]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [0.0, 10.0, 20.0]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         for i=1:m
@@ -321,9 +502,24 @@ function problem_generator(
 
         @assert ( n == 2 ) && ( m ≥ n ) "The dimensions of the problem must satisfy n = 2 e m ≥ n."
 
-        x = [0.3, 0.4]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [0.3, 0.4]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         for i=1:m
@@ -338,9 +534,24 @@ function problem_generator(
 
         @assert ( n == 4 ) && ( m ≥ n ) "The dimensions of the problem must satisfy n = 4 e m ≥ n."
 
-        x = [25.0, 5.0, - 5.0, - 1.0]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [25.0, 5.0, - 5.0, - 1.0]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         for i = 1:m
@@ -357,15 +568,30 @@ function problem_generator(
 
         @assert ( n ≥ 1 ) && ( m ≥ n ) "The dimensions of the problem must satisfy n ≥ 1 e m ≥ n."
 
-        x = zeros(n)
-        c = n + 1.0
-        for i=1:n
+        if usual_init_point
 
-            x[i] = i / c
+            c = n + 1.0
+
+            for i=1:n
+
+                x[i] = i / c
+
+            end
 
         end
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         function f15a(x, i)
@@ -425,9 +651,24 @@ function problem_generator(
 
         @assert ( n ≥ 1 ) && ( m == n ) "The dimensions of the problem must satisfy n ≥ 1 e m = n."
 
-        x = 0.5 * ones(Float64, n)
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = 0.5
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         for i = 1:(n-1)
@@ -444,9 +685,24 @@ function problem_generator(
 
         @assert ( n == 5 ) && ( m == 33 ) "The dimensions of the problem must satisfy n = 5 e m = 33."
 
-        x = [0.5, 1.5, -1.0, 0.01, 0.02]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [0.5, 1.5, -1.0, 0.01, 0.02]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         y = [
                 0.844, 0.908, 0.932, 0.936, 0.925, 0.908, 0.881, 0.850, 0.818, 0.784, 0.751,
@@ -467,9 +723,24 @@ function problem_generator(
 
         @assert ( n == 11 ) && ( m == 65 ) "The dimensions of the problem must satisfy n = 11 e m = 65."
 
-        x = [1.3, 0.65, 0.65, 0.7, 0.6, 3.0, 5.0, 7.0, 2.0, 4.5, 5.5]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [1.3, 0.65, 0.65, 0.7, 0.6, 3.0, 5.0, 7.0, 2.0, 4.5, 5.5]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         y = [
                 1.366, 1.191, 1.112, 1.013, 0.991, 0.885, 0.831, 0.847, 0.786, 0.725, 0.746, 0.679, 0.608,
@@ -492,9 +763,24 @@ function problem_generator(
 
         @assert ( n ≥ 5 ) && ( m == 2 * ( n - 4 ) ) "The dimensions of the problem must satisfy n ≥ 5 e m = 2 * ( n - 4 )."
 
-        x = ones(Float64, n)
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = 1.0
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         for i=1:(n - 4)
@@ -510,9 +796,24 @@ function problem_generator(
 
         @assert ( n == 2 ) && ( m == n ) "The dimensions of the problem must satisfy n = 2 e m = n."
 
-        x = 0.5 * ones(Float64, n)
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = 0.5
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         fmin[1] = x -> ( x[1] - 1.0 ) ^ 2.0
@@ -529,26 +830,38 @@ function problem_generator(
 
         @assert ( n ≥ 2 ) && ( m == n ) "The dimensions of the problem must satisfy n ≥ 2 e m = n."
 
-        x = zeros(Float64, n)
+        if usual_init_point
 
-        for i = 1:n
+            for i = 1:n
 
-            s = 0.0
-        
-            for j = 1:n
-        
-                ti = i / j
-        
-                s += sqrt( ti ) * ( ( sin( log( sqrt( ti ) ) ) ) ^ 5.0 + ( cos( log( sqrt( ti ) ) ) ) ^ 5.0  ) 
-        
+                s = 0.0
+            
+                for j = 1:n
+            
+                    ti = i / j
+            
+                    s += sqrt( ti ) * ( ( sin( log( sqrt( ti ) ) ) ) ^ 5.0 + ( cos( log( sqrt( ti ) ) ) ) ^ 5.0  ) 
+            
+                end
+            
+                x[i] = - 8.710996 - 4.0 * ( ( i - 50.0 ) ^ 3.0 + s )
+            
             end
-        
-            x[i] = - 8.710996 - 4.0 * ( ( i - 50.0 ) ^ 3.0 + s )
-        
+
         end
 
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
 
         function f21(x, i)
@@ -578,9 +891,24 @@ function problem_generator(
 
         @assert ( n == 8 ) && ( m == 8 ) "The dimensions of the problem must satisfy n = m = 8."
 
-        x = [ - 0.3, - 0.39, 0.3, - 0.344, - 1.2, 2.69, 1.59, - 1.5 ]
-        l = l_val(x) * ones(Float64, n)
-        u = u_val(x) * ones(Float64, n)
+        if usual_init_point
+
+            @. x = [ - 0.3, - 0.39, 0.3, - 0.344, - 1.2, 2.69, 1.59, - 1.5 ]
+
+        end
+
+        if unconstrained
+
+            l = c_lower * ones(Float64, n)
+            u = c_upper * ones(Float64, n)
+
+        else
+
+            # l 
+            # u
+
+        end
+
         fmin = Array{Function}(undef, m)
         fmin[1] = x -> ( x[1] + x[2] + 0.69 ) ^ 2.0
         fmin[2] = x -> ( x[3] + x[4] + 0.044 ) ^ 2.0
@@ -595,7 +923,7 @@ function problem_generator(
 
     if rsp
 
-        x *= 10.0
+        @. x *= 10.0
 
     end
 
