@@ -1,4 +1,4 @@
-function problem_generator(
+function problem_generator_mw(
                             nprob::Int64,
                             n::Int64,
                             m::Int64,
@@ -918,6 +918,357 @@ function problem_generator(
         fmin[6] = x -> ( x[3] * ( x[5] ^ 2.0 - x[7] ^ 2.0 ) + 2.0 * x[1] * x[5] * x[7] + x[4] * ( x[6] ^ 2.0 - x[8] ^ 2.0 ) + 2.0 * x[2] * x[6] * x[8] - 2.0 ) ^ 2.0
         fmin[7] = x -> ( x[1] * x[5] * ( x[5] ^ 2.0 - 3.0 * x[7] ^ 2.0 ) + x[3] * x[7] * ( x[7] ^ 2.0 - 3.0 * x[5] ^ 2.0 ) + x[2] * x[6] * ( x[6] ^ 2.0 - 3.0 * x[8] ^ 2.0 ) + x[4] * x[8] * ( x[8] ^ 2.0 - 3.0 * x[6] ^ 2.0 ) + 12.6 ) ^ 2.0
         fmin[8] = x -> ( x[3] * x[5] * ( x[5] ^ 2.0 - 3.0 * x[7] ^ 2.0 ) - x[1] * x[7] * ( x[7] ^ 2.0 - 3.0 * x[5] ^ 2.0 ) + x[4] * x[6] * ( x[6] ^ 2.0 - 3.0 * x[8] ^ 2.0 ) - x[2] * x[8] * ( x[8] ^ 2.0 - 3.0 * x[6] ^ 2.0 ) - 9.48 ) ^ 2.0
+
+    end
+
+    if rsp
+
+        @. x *= 10.0
+
+    end
+
+    return x, l, u, fmin
+
+end
+
+function problem_generator_hs(
+                                nprob::Int64,
+                                n::Int64,
+                                m::Int64,
+                                rsp::Bool;
+                                x::Vector{Float64}=( NaN * ones(Float64, n) )
+                                )
+
+    # Defines the objective functions based on Hock-Schittkowski test-set.
+
+    function hs1(x)
+
+        return 100.0 * ( x[2] - x[1] ^ 2.0 ) ^ 2.0 + ( 1.0 - x[1] ) ^ 2.0
+
+    end
+
+    function hs3(x)
+
+        return x[2] + 1.0e-5 * ( x[2] - x[1] ) ^ 2.0
+
+    end
+
+    function hs4(x)
+
+        return ( x[1]  + 1.0 ) ^ 3.0 / 3.0 + x[2]
+
+    end
+
+    function hs5(x)
+
+        return sin( x[1] + x[2] ) + ( x[1] - x[2] ) ^ 2.0 - 1.5 * x[1] + 2.5 * x[2] + 1.0
+
+    end
+
+    function hs25(x)
+
+        s = 0.0
+
+        for i = 1:99
+
+            ui = 25.0 + ( - 50.0 * log( 0.01 * i ) ) ^ ( 2.0 / 3.0)
+
+            s += ( - 0.01 * i + exp( - ( 1.0 / x[1] ) * ( ui - x[2] ) ^ ( x[3] ) ) ) ^ 2.0
+
+        end
+
+        return s
+
+    end
+
+    function hs38(x)
+
+        return 100.0 * ( x[2] - x[1] ^ 2.0 ) ^ 2.0 + ( 1.0 - x[1] ) ^ 2.0 + 90.0 * ( x[4] - x[3] ^ 2.0 ) ^ 2.0 + ( 1.0 - x[3] ) ^ 2.0 + 10.1 * ( ( x[2] - 1.0 ) ^ 2.0 + ( x[4] - 1.0 ) ^ 2.0 ) + 19.8 * ( x[2] - 1.0 ) * ( x[4] - 1.0 )
+
+    end
+
+    function hs45(x)
+
+        return 2.0 - x[1] * x[2] * x[3] * x[4] * x[5] / 120.0
+
+    end
+
+    function hs110(x)
+
+        s1 = 0.0
+        s2 = 1.0
+
+        for i = 1:10
+
+            s1 += ( log( x[i] - 2.0 ) ) ^ 2.0 + ( log( 10.0 - x[i] ) ) ^ 2.0
+            s2 *= x[i]
+
+        end     
+
+        return s1 - s2 ^ ( 0.2 )
+
+    end
+
+    # Initializes some useful variables and constants
+    c_lower = - 1.0e20
+    c_upper = 1.0e20
+
+    if isnan( x[1] )
+
+        default_init_point = true
+
+    end
+
+    if nprob == 1
+
+        @assert n == m == 2 "The dimensions of the problem must satisfy n = m = 2."
+        
+        if default_init_point
+
+            @. x = [ -2.0, 1.0 ]
+
+        end
+        l = [ c_lower, 0.0 ]
+        u = c_upper * ones(Float64, n)
+        fmin = [ hs1, hs3 ]
+
+    elseif nprob == 2
+
+        @assert n == m == 2 "The dimensions of the problem must satisfy n = m = 2."
+        
+        if default_init_point
+            
+            @. x = [ 1.125, 0.125 ]
+
+        end
+
+        l = [ 1.0, 0.0 ]
+        u = c_upper * ones(Float64, n)
+        fmin = [ hs1, hs4 ]
+
+    elseif nprob == 3
+
+        @assert n == m == 2 "The dimensions of the problem must satisfy n = m = 2."
+        
+        if default_init_point
+            
+            @. x = 0.0
+
+        end
+        
+        l = [ - 1.5, - 1.5 ]
+        u = [ 4.0, 3.0 ]
+        fmin = [ hs1, hs5 ]
+
+    elseif nprob == 4
+
+        @assert n == 3 && m == 2 "The dimensions of the problem must satisfy n = 3 e m = 2."
+        
+        if default_init_point
+            
+            @. x = [ 100.0, 12.5, 3.0]
+
+        end
+        
+        l = [ 0.1, 0.0, 0.0 ]
+        u = [ 100.0, 25.6, 5.0 ]
+        fmin = [ hs1, hs25 ]
+
+    elseif nprob == 5
+
+        @assert n == 4 && m == 2 "The dimensions of the problem must satisfy n = 4 e m = 2."
+        
+        if default_init_point
+            
+            @. x = [ - 3.0, - 1.0, - 3.0, - 1.0 ]
+
+        end
+        
+        l = [ - 10.0, - 1.5, - 10.0, - 10.0 ]
+        u = 10.0 * ones(Float64, n)
+        fmin = [ hs1, hs38 ]
+
+    elseif nprob == 6
+
+        @assert n == 5 && m == 2 "The dimensions of the problem must satisfy n = 5 e m = 2."
+        
+        if default_init_point
+            
+            @. x = 2.0
+
+        end
+        
+        l = zeros(Float64, n)
+        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
+        fmin = [ hs1, hs45 ]
+
+    elseif nprob == 7
+
+        @assert n == 10 && m == 2 "The dimensions of the problem must satisfy n = 10 e m = 2."
+        
+        if default_init_point
+            
+            @. x = 9.0
+
+        end
+        
+        l = 2.001 * ones(Float64, n)
+        u = 9.999 * ones(Float64, n)
+        fmin = [ hs1, hs110 ]
+
+    elseif nprob == 8
+
+        @assert n == m == 2 "The dimensions of the problem must satisfy n = m = 2."
+        
+        if default_init_point
+            
+            @. x = [ 1.125, 0.125 ]
+
+        end
+        
+        l = [ 1.0, 0.0 ]
+        u = c_upper * ones(Float64, n)
+        fmin = [ hs3, hs4 ]
+
+    elseif nprob == 9
+
+        @assert n == m == 2 "The dimensions of the problem must satisfy n = m = 2."
+        
+        if default_init_point
+            
+            @. x = 0.0
+
+        end
+        
+        l = [ - 1.5, 0.0 ]
+        u = [ 4.0, 3.0 ]
+        fmin = [ hs3, hs5 ]
+
+    elseif nprob == 10
+
+        @assert n == 3 && m == 2 "The dimensions of the problem must satisfy n = 3 e m = 2."
+        
+        if default_init_point
+            
+            @. x = [ 100.0, 12.5, 3.0]
+
+        end
+        
+        l = [ 0.1, 0.0, 0.0 ]
+        u = [ 100.0, 25.6, 5.0 ]
+        fmin = [ hs3, hs25 ]
+
+    elseif  nprob == 11
+
+        @assert n == 4 && m == 2 "The dimensions of the problem must satisfy n = 4 e m = 2."
+        
+        if default_init_point
+            
+            @. x = [ - 3.0, - 1.0, - 3.0, - 1.0 ]
+
+        end
+        
+        l = [ - 10.0, 0.0, - 10.0, - 10.0 ]
+        u = 10.0 * ones(Float64, n)
+        fmin = [ hs3, hs38 ]
+
+    elseif nprob == 12
+
+        @assert n == 5 && m == 2 "The dimensions of the problem must satisfy n = 5 e m = 2."
+        
+        if default_init_point
+            
+            @. x = 2.0
+
+        end
+        
+        l = zeros(Float64, n)
+        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
+        fmin = [ hs3, hs45 ]
+
+    elseif nprob == 13
+
+        @assert n == 10 && m == 2 "The dimensions of the problem must satisfy n = 10 e m = 2."
+        
+        if default_init_point
+            
+            @. x = 9.0
+
+        end
+        
+        l = 2.001 * ones(Float64, n)
+        u = 9.999 * ones(Float64, n)
+        fmin = [ hs3, hs110 ]
+
+    elseif nprob == 14
+
+        @assert n == m == 2 "The dimensions of the problem must satisfy n = m = 2."
+        
+        if default_init_point
+            
+            @. x = [ 1.125, 0.125 ]
+
+        end
+        
+        l = [ 1.0, 0.0 ]
+        u = [ 4.0, 3.0 ]
+        fmin = [ hs4, hs5 ]
+
+    elseif nprob == 15
+
+        @assert n == 3 && m == 2 "The dimensions of the problem must satisfy n = 3 e m = 2."
+        
+        if default_init_point
+            
+            @. x = [ 100.0, 12.5, 3.0]
+
+        end
+        
+        l = [ 1.0, 0.0, 0.0 ]
+        u = [ 100.0, 25.6, 5.0 ]
+        fmin = [ hs4, hs25 ]
+
+    elseif nprob == 16
+
+        @assert n == 4 && m == 2 "The dimensions of the problem must satisfy n = 4 e m = 2."
+        
+        if default_init_point
+            
+            @. x = [ 3.0, 1.0, - 3.0, - 1.0 ]
+
+        end
+        
+        l = [ 1.0 , 0.0, - 10.0, - 10.0 ]
+        u = 10.0 * ones(Float64, n)
+        fmin = [ hs4, hs38 ]
+
+    elseif nprob == 17
+
+        @assert n == 5 && m == 2 "The dimensions of the problem must satisfy n = 5 e m = 2."
+        
+        if default_init_point
+            
+            @. x = 2.0
+
+        end
+        
+        l = [ 1.0, 0.0, 0.0, 0.0, 0.0 ]
+        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
+        fmin = [ hs4, hs45 ]
+
+    elseif nprob == 18
+
+        @assert n == 10 && m == 2 "The dimensions of the problem must satisfy n = 10 e m = 2."
+        
+        if default_init_point
+            
+            @. x = 9.0
+
+        end
+        
+        l = 2.001 * ones(Float64, n)
+        u = 9.999 * ones(Float64, n)
+        fmin = [ hs4, hs110 ]
 
     end
 
