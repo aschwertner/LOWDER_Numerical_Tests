@@ -2,3 +2,4 @@
 CUTEst = "1b53aba6-35b6-5f92-a507-53c67d53f819"
 JSOSolvers = "10dff2fc-5484-5881-a0e0-c90441020f8a"
 NLPModels = "a4795742-8479-5a88-8948-cc11e1c8c1a6"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
