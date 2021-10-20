@@ -14,7 +14,6 @@ filename = "../data_files/mw_test_set_unconstrained_01.dat"
 # -----------------------------------------------
 δ = 2.0
 Δ = 2.0
-m = 3
 
 # -----------------------------------------------
 
@@ -37,7 +36,7 @@ for i = 1 : total_prob
     try
         
         # Generates the problem
-        ( x, l, u, fmin ) = problem_generator_mw( nprob, n, p, rsp; unconstrained = true)
+        ( x, l, u, fmin ) = problem_generator_mw( nprob, n, p, rsp; unconstrained = true )
 
         # Solves the problem using 'lowder'
         sol = LOWDER.lowder( fmin, x, l, u, δ, Δ; m = n_points )
