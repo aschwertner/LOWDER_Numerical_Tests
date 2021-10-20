@@ -353,12 +353,12 @@ function problem_generator_mw(
         end
 
         fmin = Array{Function}(undef, m)
-        y = [ 0.1957, 0.1947, 0.1735, 0.16, 0.0844, 0.0627, 0.0456, 0.0342, 0.0323, 0.0235, 0.0246 ]
-        u = [ 4.0, 2.0, 1.0, 0.5, 0.25, 0.167, 0.125, 0.1, 0.0833, 0.0714, 0.0625 ]
+        y1 = [ 0.1957, 0.1947, 0.1735, 0.16, 0.0844, 0.0627, 0.0456, 0.0342, 0.0323, 0.0235, 0.0246 ]
+        y2 = [ 4.0, 2.0, 1.0, 0.5, 0.25, 0.167, 0.125, 0.1, 0.0833, 0.0714, 0.0625 ]
 
         for i=1:m
 
-            fmin[i] = x -> ( y[i] - ( x[1] * ( u[i] ^ 2.0 + u[i] * x[2] ) ) / ( u[i] ^ 2.0 + u[i] * x[3] + x[4] ) ) ^ 2.0
+            fmin[i] = x -> ( y1[i] - ( x[1] * ( y2[i] ^ 2.0 + y2[i] * x[2] ) ) / ( y2[i] ^ 2.0 + y2[i] * x[3] + x[4] ) ) ^ 2.0
 
         end
 
@@ -794,7 +794,7 @@ function problem_generator_mw(
 
         # Cube function
 
-        @assert ( n == 2 ) && ( m == n ) "The dimensions of the problem must satisfy n = 2 e m = n."
+        @assert ( n ≥ 2 ) && ( m == n ) "The dimensions of the problem must satisfy n ≥ 2 e m = n."
 
         if usual_init_point
 
