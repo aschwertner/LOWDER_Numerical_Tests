@@ -18,8 +18,6 @@ function plot_iterations_linear(
     data_g = data[1:(end - 1), 15:16]
     data_xbase = data[1:(end - 1), 17:18]
     data_xopt = data[1:(end - 1), 19:20]
-    data_it_type = data[1:(end - 1), 8]
-    data_it_type[end] = data[end, 1]
 
     if show_sample_set
 
@@ -58,10 +56,10 @@ function plot_iterations_linear(
         scatter!( plot_model, [ data_xopt[i, 1] ] , [ data_xopt[i, 2] ], color = :red  , markersize = 9,  marker = :diamond, lab = "xopt" )
 
         plot( plot_model, size = (900, 600))
-        png("./images/fig_modelo_$(i)")
+        png("./images/fig_modelo_02_$(i)")
 
     end
 
 end
 
-plot_iterations_linear( [0.0, 0.0], [5.0, 5.0], "./data_files/simple_runtest.dat"; show_sample_set=true)
+plot_iterations_linear( [-1.0, -2.0], [1.5, 2.0], "./data_files/simple_runtest_02.dat"; show_sample_set=true)
