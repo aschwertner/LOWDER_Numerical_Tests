@@ -12,16 +12,17 @@ const problems = setdiff(CUTEst.select(max_var=2, contype="unc"),
 
 # Code to generate several f_i's
 
+const MAX_TIME = 2.0
+
 fcnt = 0
 
-const flist = []
+flist = Vector{Function}()
 
 for par1 in [:true, :false]
     for par2 in [-1, 1000, 5000, 10000]
 
         global fcnt += 1
         local fname = Symbol("f", fcnt)
-        local MAX_TIME = 2.0
             
         @eval begin
 
@@ -80,8 +81,6 @@ function ($fname)(x)
 
     end
 
-    ($fcnt == 7) && (return 666.66)
-    
     # Return total execution time
     return total_time
     # Return ratio of solved problems
@@ -96,6 +95,6 @@ end
 end
 
 # Bounds for μ0, μ1, σ, cgtol
-const l = [      1.0e-8, 3/4,    1.1, 1.0e-8];
-const u = [3/4 - 1.0e-8, 1.0, 1.0e-3, 9.0e-1];
+const l = [      1.0e-8, 3/4, 1.0e-3, 1.0e-8];
+const u = [3/4 - 1.0e-8, 1.0,    1.1, 9.0e-1];
 ;
