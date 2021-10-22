@@ -2,13 +2,20 @@ import Random: seed!
 import LinearAlgebra: norm, dot
 
 """
-    genprob(num_pts, u; sd=abs(rand(Int64)))
+    genprob(num_pts, u; sd=abs(rand(Int64)), K=5)
 
-Generate a list of functions to generate function min_{i =
-1:num_pts+1} f_i
+Generate a list of `num_pts + 1` functions to build function `min_{i =
+1:num_pts+1} f_i`. The functions are defined inside the box `[0, u]` in
+R^n. The function is created so that there are several (random)
+quadratic functions with increasing minimum values. The `num_pts +
+1`-th function is a plane that achieves the global solution at (0,
+0). The values of the local minima are powers of `K`. To generate
+always the same functions, one should provide the seed parameter `sd`.
+
+Returns the list of functions and the bounds `l` and `u`.
 
 """
-function genprob(num_pts, u; sd=abs(rand(Int64)))
+function genprob(num_pts, u; sd::Int64=abs(rand(Int64)), K=5)
 
     fmin_list = Vector{Function}(undef, num_pts + 1)
 
@@ -53,6 +60,13 @@ function genprob(num_pts, u; sd=abs(rand(Int64)))
     
 end
 
+"""
+    gen_fmin(flist)
+
+This function simply returns the `f_min` function, defined by `min
+flist[i]`, which is usefull only for drawing purposes and intuition.
+
+"""
 function gen_fmin(flist)
 
     fmin = let
@@ -61,7 +75,7 @@ function gen_fmin(flist)
 
         m = length(fl)
         
-        (x, y) -> minimum((fl[i]([x, y]) for i = 1:m))
+        (x) -> minimum((fl[i](x) for i = 1:m))
         
     end
 
