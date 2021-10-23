@@ -39,8 +39,6 @@ function expand_args(args, pn=0)
     
     for (i, ex) in enumerate(args)
 
-        println(ex)
-        
         if ex == :_
 
             # In this case, we add a new variable for the optimization
@@ -153,6 +151,7 @@ function expand_args(args, pn=0)
     
 end
 
+
 macro prepare_tunning(f_call)
 
     (f_call.head != :call) && error("Must be a function call.")
@@ -177,9 +176,7 @@ macro prepare_tunning(f_call)
         fex[i] = quote
             function $(fi)(__x)
                 # Call the solver in a series of problems
-                $ex
-                # Return something
-                return 0
+                return @elapsed $ex
             end
         end
 
