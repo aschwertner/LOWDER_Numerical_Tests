@@ -1,6 +1,9 @@
 function tunningexpand(ex)
 end
 
+function tunninginput(ex)
+end
+
 shouldexpand(ex) = (isa(ex, Expr) && (ex.head == :call) && (ex.args[1] == :tunningexpand))
 
 isinput(ex) = (isa(ex, Expr) && (ex.head == :call) && (ex.args[1] == :tunninginput))
@@ -17,11 +20,8 @@ function getsymbols!(ex, s)
 
     end
 
-    if isa(ex, Expr)
-        for (i, exx) in enumerate(ex.args)
-            ex.args[i] = getsymbols!(exx, s)
-        end
-    end
+    isa(ex, Expr) &&
+        (return Expr(ex.head, (getsymbols!(exx, s) for exx in ex.args)...))
 
     return ex
 
@@ -116,8 +116,10 @@ function expand_args(args, pn=0)
 
                 # When dealing with keywords, only have to expand the
                 # second argument, if necessary
-                expanded_args, n = expand_args(ex.args[2:end], n)
+                expanded_args, n, new_symbols = expand_args(ex.args[2:end], n)
 
+                union!(symbols, new_symbols)
+                
                 for j in expanded_args
                     
                     for vargs in args_list
@@ -140,8 +142,10 @@ function expand_args(args, pn=0)
 
                 # Recursively expands all the keywords associated with
                 # the parameters and update the number of variables
-                expanded_args, n = expand_args(ex.args, n)
+                expanded_args, n, new_symbols = expand_args(ex.args, n)
 
+                union!(symbols, new_symbols)
+                
                 for j in expanded_args
                     
                     for vargs in args_list
@@ -164,9 +168,12 @@ function expand_args(args, pn=0)
 
             # Default case: simply add the current expression in all
             # vectors
+
+            exx = getsymbols!(ex, symbols)
+            
             for vargs in args_list
 
-                vargs[i] = ex
+                vargs[i] = exx
 
             end
             
@@ -185,7 +192,7 @@ macro prepare_tunning(f_call)
     (f_call.head != :call) && error("Must be a function call.")
 
     # Expand, if necessary, all the arguments after the function name
-    expanded_args, n = expand_args(f_call.args[2:end])
+    expanded_args, n, symbols = expand_args(f_call.args[2:end])
 
     # Add the function call to each different configuration of the
     # algorithm
@@ -202,8 +209,9 @@ macro prepare_tunning(f_call)
 
         local fi = Symbol("f", i)
         fex[i] = quote
-            function $(fi)(__x)
+            function $(fi)($(symbols...))
                 # Call the solver in a series of problems
+                # return comparefunction(__x, $(symbols...) -> $ex)
                 return @elapsed $ex
             end
         end
