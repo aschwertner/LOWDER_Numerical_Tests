@@ -3,6 +3,30 @@ end
 
 shouldexpand(ex) = (isa(ex, Expr) && (ex.head == :call) && (ex.args[1] == :tunningexpand))
 
+isinput(ex) = (isa(ex, Expr) && (ex.head == :call) && (ex.args[1] == :tunninginput))
+
+function getsymbols!(ex, s)
+
+    # If is the `isinput` command, remove it and return only the
+    # argument
+    if isinput(ex)
+
+        push!(s, ex.args[2])
+        
+        return ex.args[2]
+
+    end
+
+    if isa(ex, Expr)
+        for (i, exx) in enumerate(ex.args)
+            ex.args[i] = getsymbols!(exx, s)
+        end
+    end
+
+    return ex
+
+end
+
 function expand_pars!(list, i, ex)
 
     (!isa(ex, Expr)) && return
@@ -36,6 +60,8 @@ function expand_args(args, pn=0)
     args_list = [Vector{Any}(undef, nargs)]
 
     n = pn
+
+    symbols = Set()
     
     for (i, ex) in enumerate(args)
 
@@ -43,6 +69,8 @@ function expand_args(args, pn=0)
 
             # In this case, we add a new variable for the optimization
             # problem
+
+            push!(symbols, :__x)
 
             for vargs in args_list
 
@@ -147,7 +175,7 @@ function expand_args(args, pn=0)
 
     end
 
-    return args_list, n
+    return args_list, n, symbols
     
 end
 
