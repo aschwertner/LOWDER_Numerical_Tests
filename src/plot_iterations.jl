@@ -4,7 +4,8 @@ using Plots; gr()
 function plot_iterations_linear(
                                 a::Vector{Float64},
                                 b::Vector{Float64},
-                                filename::String;
+                                filename::String,
+                                imagename::String;
                                 p_step::Float64=1.0e-2,
                                 p_levels::Int64=30,
                                 show_sample_set::Bool=false
@@ -56,10 +57,11 @@ function plot_iterations_linear(
         scatter!( plot_model, [ data_xopt[i, 1] ] , [ data_xopt[i, 2] ], color = :red  , markersize = 9,  marker = :diamond, lab = "xopt" )
 
         plot( plot_model, size = (900, 600))
-        png("./images/fig_modelo_02_$(i)")
+        figname = string( imagename, "$(i)" )
+        png( figname )
 
     end
 
 end
 
-plot_iterations_linear( [-1.0, -2.0], [1.5, 2.0], "./data_files/simple_runtest_02.dat"; show_sample_set=true)
+plot_iterations_linear( [-1.0, -2.0], [1.5, 2.0], "./data_files/simple_runtest_02.dat", "./images/test_01/fig_model_"; show_sample_set=true)
