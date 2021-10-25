@@ -19,5 +19,5 @@ b = [1.5, 2.0]
 δ = 0.5
 Δ = 0.5
 
-#sol = LOWDER.lowder(fmin_list, x, a, b, δ, Δ; m = 3, verbose = 3, filename="./data_files/simple_runtest_02.dat")
-sol = LOWDER.lowder(fmin_list, x, a, b, δ, Δ; m = 3)
+sol = LOWDER.lowder(fmin_list, x, a, b, δ, Δ; m = 3, verbose = 3, filename="./data_files/simple_runtest_02.dat")
+#sol = LOWDER.lowder(fmin_list, x, a, b, δ, Δ; m = 3)
