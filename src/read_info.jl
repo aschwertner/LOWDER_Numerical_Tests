@@ -19,7 +19,7 @@ data_xopt = data[1:(end - 1), (15 + 2 * n):(14 + 3 * n)]
 data_Y = data[1:(end - 1), (15 + 3 * n + m):(14 + 3 * n + m + n * (m - 1))]
 data_d = data[1:(end - 1), (end - 1):end ]
 
-it = 9
+it = 23
 println("xbase: ", data_xbase[it, :])
 println("xopt : ", data_xopt[it, :])
 println("Y_{1}: ", data_Y[it, 1:2] + data_xbase[it, :])
