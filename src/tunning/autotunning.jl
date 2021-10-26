@@ -27,32 +27,6 @@ function getsymbols!(ex, s)
 
 end
 
-function expand_pars!(list, i, ex)
-
-    (!isa(ex, Expr)) && return
-    (ex.head != :kw && ex.head != :parameters) && return 
-    
-    first = true
-    
-    tmplist = []
-
-    # Do not eval if it is not a "tunningeval" call
-    (!shouldexpand(ex.args[2])) && return
-    
-    for vals in eval(ex.args[2])
-        for exx in list
-            tmpex = (first) ? exx : copy(exx)
-            tmpex.args[i].args[2] = vals
-            (!first) && (push!(tmplist, tmpex))
-        end
-        # After the first loop, need to create copies
-        first = false
-    end
-    
-    append!(list, tmplist)
-
-end
-
 function expand_args(args, pn=0)
 
     nargs = length(args)
@@ -70,12 +44,12 @@ function expand_args(args, pn=0)
             # In this case, we add a new variable for the optimization
             # problem
 
+            n += 1
+                
             push!(symbols, :__x)
 
             for vargs in args_list
 
-                n += 1
-                
                 # It was _, now it is __x[n]
                 vargs[i] = Expr(:ref, :__x, n)
 
@@ -167,7 +141,7 @@ function expand_args(args, pn=0)
         else
 
             # Default case: simply add the current expression in all
-            # vectors
+            # vectors, after removing the symbols
 
             exx = getsymbols!(ex, symbols)
             
@@ -187,7 +161,7 @@ function expand_args(args, pn=0)
 end
 
 
-macro prepare_tunning(f_call)
+macro prepare_tunning(f_call, comparefunction)
 
     (f_call.head != :call) && error("Must be a function call.")
 
@@ -209,10 +183,10 @@ macro prepare_tunning(f_call)
 
         local fi = Symbol("f", i)
         fex[i] = quote
-            function $(fi)($(symbols...))
+            function $(fi)(__x)
                 # Call the solver in a series of problems
-                # return comparefunction(__x, $(symbols...) -> $ex)
-                return @elapsed $ex
+                ff($(symbols...)) = $ex
+                return $comparefunction(__x, ff)
             end
         end
 
