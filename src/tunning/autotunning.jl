@@ -198,3 +198,69 @@ macro prepare_tunning(f_call, comparefunction)
     return Expr(:block, fex..., Expr(:vect, flist...))
     
 end
+
+function rcopycode(fname, code)
+
+    !isa(code, Expr) && return code, []
+
+    # If found the given function, then create copies, etc...
+    if (code.head == :call) && (code.args[1] == fname)
+
+        
+        # Expand, if necessary, all the arguments after the function name
+        expanded_args, n, symbols = expand_args(code.args[2:end])
+        
+        # Add the function call to each different configuration of the
+        # algorithm
+        fexprs = map((args) -> Expr(:call, code.args[1], args...),
+                     expanded_args)
+
+        return code, fexprs
+
+    end
+
+    # Otherwise, try to find it further
+    for (i, ex) in enumerate(code.args)
+
+        c, l = rcopycode(fname, ex)
+
+        !isempty(l) && return c, l
+
+    end
+
+    return code, []
+    
+end
+
+macro copycode(fname, code)
+
+    # Something like this
+    target, copies = rcopycode(fname, code)
+
+    # Now create the functions to measure each different configuration
+    # of the algorithm call
+
+    fex = Vector{Any}(undef, length(copies))
+    flist = Vector{Any}(undef, length(copies))
+
+    for (i, ex) in enumerate(copies)
+
+        # Put the correct arguments
+        target.args .= ex.args
+        
+        local fi = Symbol("f", i)
+        fex[i] = quote
+            function $(fi)(__x)
+                # Add the code
+                $(copy(code))
+            end
+        end
+
+        flist[i] = :($(fi))
+    end
+
+    # Create the functions and the list
+
+    return Expr(:block, fex..., Expr(:vect, flist...))
+    
+end
