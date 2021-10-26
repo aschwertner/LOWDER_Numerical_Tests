@@ -8,7 +8,17 @@ shouldexpand(ex) = (isa(ex, Expr) && (ex.head == :call) && (ex.args[1] == :tunni
 
 isinput(ex) = (isa(ex, Expr) && (ex.head == :call) && (ex.args[1] == :tunninginput))
 
-function getsymbols!(ex, s)
+"""
+    getsymbols!(ex, s)
+
+This functions search recursively in `ex` by variables that are marked
+with `tunninginput`.
+
+It returns a new expression with this mark removed and also append to
+Set `s` the name of the variables found during the search.
+
+"""
+function getsymbols!(ex, s::Set{Symbol})
 
     # If is the `isinput` command, remove it and return only the
     # argument
@@ -27,6 +37,34 @@ function getsymbols!(ex, s)
 
 end
 
+
+"""
+    expand_args(args, pn=0)
+
+This function receives a list `args` or arguments to a function call
+and, possibly, the number `pn` of optimization variables known before
+a call to this function. It recursively walks through the AST of each
+expression in the arguments and perform some actions
+
+  - If symbol `:_` is found, then this argument is a new optimization
+    argument
+
+  - If a call to `tunningexpand` is performed (usually passing an
+    Iterable as argument), then the call is removed and the associated
+    expression is replicated, replacing the argument by each value
+    from the evaluation of the argument of `tunningexpand`
+
+  - If a call to `tunninginput` is found, then a new user-needed
+    variable is found, but this variable is not an optimization
+    variable. Simply remove the call and add the variable to the list
+    of symbols.
+
+It returns a `list` where, at each position there is a proper list of
+the arguments to the function call. It also returns the number `n` of
+optimization variables and a `Set` with all the symbols (including the
+optimization variable) that will be needed to call the function.
+
+"""
 function expand_args(args, pn=0)
 
     nargs = length(args)
