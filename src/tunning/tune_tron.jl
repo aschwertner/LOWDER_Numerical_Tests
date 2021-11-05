@@ -37,7 +37,7 @@ flist = @copycode tron begin
 
             with_logger(NullLogger()) do
                 
-                s = tron(nlp; μ₀=_, μ₁=_, σ=_, cgtol=_,
+                s = tron(nlp; μ₀=tunningvar(1), μ₁=tunningvar(2), σ=tunningvar(4), cgtol=tunningvar(3),
                          max_time=max_time,
                          # These arguments define uniquely the solver
                          use_only_objgrad=tunningexpand([true, false]),
@@ -62,10 +62,6 @@ flist = @copycode tron begin
             finalize(nlp)
 
         catch e
-
-            # show(nlp)
-
-            show(e)
 
             finalize(nlp)
 
