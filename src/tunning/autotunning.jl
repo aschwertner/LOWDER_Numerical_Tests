@@ -73,7 +73,7 @@ function expand_args(args, pn=0)
 
     n = pn
 
-    symbols = Set()
+    symbols = Set{Symbol}()
     
     for (i, ex) in enumerate(args)
 
