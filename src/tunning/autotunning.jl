@@ -4,9 +4,14 @@ end
 function tunninginput(ex)
 end
 
+function tunningvar(i)
+end
+
 shouldexpand(ex) = (isa(ex, Expr) && (ex.head == :call) && (ex.args[1] == :tunningexpand))
 
 isinput(ex) = (isa(ex, Expr) && (ex.head == :call) && (ex.args[1] == :tunninginput))
+
+isvar(ex) = (isa(ex, Expr) && (ex.head == :call) && (ex.args[1] == :tunningvar))
 
 """
     getsymbols!(ex, s)
@@ -27,6 +32,17 @@ function getsymbols!(ex, s::Set{Symbol})
         push!(s, ex.args[2])
         
         return ex.args[2]
+
+    end
+
+    # If is the `tunningvar` command, add :__x to the set of symbols
+    # (as usual), but associate with this variable the provided
+    # argument.
+    if isvar(ex)
+
+        push!(s, :__x)
+
+        return Expr(:ref, :__x, ex.args[2])
 
     end
 
@@ -80,7 +96,11 @@ function expand_args(args, pn=0)
         if ex == :_
 
             # In this case, we add a new variable for the optimization
-            # problem
+            # problem. Unlike the `tunningvar(i)` option, in this
+            # case, we are free to set the order of variables
+
+            # Check if there is no use of :_ and :tunningvar
+            (n == 0) && (:__x in symbols) && error("It is forbidden to use :_ and :tunningvar in the same call")
 
             n += 1
                 
@@ -181,7 +201,15 @@ function expand_args(args, pn=0)
             # Default case: simply add the current expression in all
             # vectors, after removing the symbols
 
-            exx = getsymbols!(ex, symbols)
+            new_symbols = Set{Symbol}()
+            
+            exx = getsymbols!(ex, new_symbols)
+
+            # Check if both :_ and :tunningvar are being used
+            (n > 0) && (:__x in new_symbols) &&
+                error("It is forbidden to use :_ and :tunningvar in the same call")
+
+            union!(symbols, new_symbols)
             
             for vargs in args_list
 
