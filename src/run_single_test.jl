@@ -19,7 +19,7 @@ problems = readdlm( source_filename, Int64 )
 # -----------------------------------------------
 # Problem info
 # -----------------------------------------------
-i = 45
+i = 28
 nprob = problems[i, 1]
 n = problems[i, 2]
 p = problems[i, 3]
@@ -30,4 +30,4 @@ n_points = n + 1
 ( x, l, u, fmin ) = problem_generator_mw( nprob, n, p, rsp; unconstrained = true )
 
 # Solves the problem using 'lowder'
-sol = LOWDER.lowder( fmin, x, l, u, δ, Δ; m = n_points )
+sol = LOWDER.lowder( fmin, x, l, u, δ, Δ; m = n_points, verbose = 3, filename="../data_files/simple_runtest_01.dat")
