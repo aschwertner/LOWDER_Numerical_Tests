@@ -26,7 +26,7 @@ function plot_iterations_linear(
 
     end
     
-    # Plots the contour of the original problem
+    # Creates 'x' and 'y'
     x = a[1]:p_step:b[1]
     y = a[2]:p_step:b[2]
 
@@ -64,4 +64,17 @@ function plot_iterations_linear(
 
 end
 
-plot_iterations_linear( [-1.0, -2.0], [1.5, 2.0], "./data_files/simple_runtest_02.dat", "./images/test_01/fig_model_"; show_sample_set=true)
+# -----------------------------------------------
+# Problem definition
+# -----------------------------------------------
+
+a = [0.0, 0.0]
+b = [5.0, 5.0]
+path_to_source = "./data_files/simple_runtest_01.dat"
+path_to_image = "./images/test_01/fig_model_"
+
+# -----------------------------------------------
+# Function call 
+# -----------------------------------------------
+
+plot_iterations_linear( a, b, path_to_source, path_to_image; show_sample_set=true)
