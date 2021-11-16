@@ -66,7 +66,7 @@ end
 # Path to file
 # -----------------------------------------------
 
-filename = "../data_files/mw_uncons_test_v03"
+filename = "../data_files/mw_uncons_test_v03.dat"
 
 # -----------------------------------------------
 # LOWDER parameters
