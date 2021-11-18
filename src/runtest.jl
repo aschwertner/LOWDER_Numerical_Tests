@@ -37,7 +37,7 @@ function runtest_mw(
             sol = LOWDER.lowder( fmin, x, l, u, δ, Δ; m = n_points )
 
             # Saves info
-            text = "$( sol.status ) $( sol.true_val ) $( sol.iter ) $( sol.nf ) $( sol.stationarity ) $( sol.sample_radius ) $( sol.tr_radius ) $( sol.index ) $( sol.f )"
+            text = "$( n ) $( p ) $( sol.status ) $( sol.true_val ) $( sol.iter ) $( sol.nf ) $( sol.nf / p ) $( sol.stationarity ) $( sol.sample_radius ) $( sol.tr_radius ) $( sol.index ) $( sol.f )"
             print( file, text )
             for j = 1 : ( problems[ i, 2 ] - 1 )
 
@@ -66,7 +66,7 @@ end
 # Path to file
 # -----------------------------------------------
 
-filename = "../data_files/mw_uncons_test_v03.dat"
+filename = "../data_files/mw_uncons_test_v03_02.dat"
 
 # -----------------------------------------------
 # LOWDER parameters
