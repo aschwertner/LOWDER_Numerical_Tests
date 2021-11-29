@@ -25,8 +25,8 @@ b = [5.0, 5.0]
 # LOWDER parameters
 # -----------------------------------------------
 
-δ = 1.0
-Δ = 1.2
+δinit = 1.0
+Δinit = 1.2
 n_points = 3
 verbosity = 3
 path_to_file = "./data_files/simple_runtest_01.dat"
@@ -35,4 +35,4 @@ path_to_file = "./data_files/simple_runtest_01.dat"
 # LOWDER call
 # -----------------------------------------------
 
-sol = LOWDER.lowder(fmin_list, x, a, b, δ, Δ; m = n_points, verbose = verbosity, filename = path_to_file)
+sol = LOWDER.lowder(fmin_list, x, a, b; δ = δinit, Δ = Δinit, m = n_points, verbose = verbosity, filename = path_to_file)

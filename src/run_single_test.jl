@@ -11,8 +11,8 @@ source_filename = "CUTEr_selected_problems.dat"
 # -----------------------------------------------
 # LOWDER parameters
 # -----------------------------------------------
-δ = 2.0
-Δ = 2.0
+δinit = 2.0
+Δinit = 2.0
 
 problems = readdlm( source_filename, Int64 )
 
@@ -30,4 +30,4 @@ n_points = n + 1
 ( x, l, u, fmin ) = problem_generator_mw( nprob, n, p, rsp; unconstrained = true )
 
 # Solves the problem using 'lowder'
-sol = LOWDER.lowder( fmin, x, l, u, δ, Δ; m = n_points, verbose = 3, filename="../data_files/simple_runtest_01.dat")
+sol = LOWDER.lowder( fmin, x, l, u; δ = δinit, Δ = Δinit, m = n_points, verbose = 3, filename="../data_files/simple_runtest_01.dat")

@@ -34,7 +34,7 @@ function runtest_mw(
             ( x, l, u, fmin ) = problem_generator_mw( nprob, n, p, rsp; unconstrained = unconstrained_prob )
 
             # Solves the problem using 'lowder'
-            sol = LOWDER.lowder( fmin, x, l, u, δ, Δ; m = n_points )
+            sol = LOWDER.lowder( fmin, x, l, u; δ, Δ, m = n_points )
 
             # Saves info
             text = "$( n ) $( p ) $( sol.status ) $( sol.true_val ) $( sol.iter ) $( sol.nf ) $( sol.nf / p ) $( sol.stationarity ) $( sol.sample_radius ) $( sol.tr_radius ) $( sol.index ) $( sol.f )"
@@ -72,11 +72,11 @@ filename = "../data_files/mw_uncons_test_v03_02.dat"
 # LOWDER parameters
 # -----------------------------------------------
 
-δ = 2.0
-Δ = 2.0
+δinit = 2.0
+Δinit = 2.0
 
 # -----------------------------------------------
 # Funtion call
 # -----------------------------------------------
 
-runtest_mw( δ, Δ, filename; unconstrained_prob = true )
+runtest_mw( δinit, Δinit, filename; unconstrained_prob = true )
