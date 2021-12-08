@@ -25,6 +25,23 @@ function read_data(
 
 end
 
+function print_sol(
+                    filename::String
+                    )
+
+    # Reads the execution data
+    data = readdlm(filename)
+    n = size(data)[1]
+
+    # Print data
+    for i = 1:n
+        println("$(i) - Solution: $(data[i, 13:(12+data[i, 1])])")
+    end
+
+end
+
 filename = "../data_files/mw_uncons_test_beta_1.dat"
 
-read_data(1, filename)
+print_sol(filename)
+
+#read_data(4, filename)
