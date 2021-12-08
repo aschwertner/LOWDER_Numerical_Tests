@@ -39,8 +39,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = 0.75 * ones(Float64, n)
+            u = 15.0 * ones(Float64, n)
 
         end
 
@@ -78,8 +78,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - ones(Float64, n)
+            u = 10.0 * ones(Float64, n)
 
         end
 
@@ -124,8 +124,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = 2.0 * ones(Float64, n)
+            u = 7.0 * ones(Float64, n)
 
         end
 
@@ -172,8 +172,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - 5.0 * ones(Float64, n)
+            u = zeros(Float64, n)
 
         end
 
@@ -200,8 +200,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - 10.0 * ones(Float64, n)
+            u = - ones(Float64, n)
 
         end
 
@@ -248,8 +248,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - ones(Float64, n)
+            u = 10.0 * ones(Float64, n)
 
         end
 
@@ -278,8 +278,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - 3.0 * ones(Float64, n)
+            u = 3.0 * ones(Float64, n)
 
         end
 
@@ -306,8 +306,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = 0.5 * ones(Float64, n)
+            u = 10.0 * ones(Float64, n)
 
         end
 
@@ -347,8 +347,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = [0.0, 0.0, 0.415, 0.0]
+            u = [0.275, 0.4, 1.0, 0.4]
 
         end
 
@@ -381,8 +381,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - 100.0 * ones(Float64, n)
+            u = [100.0, 4000.0, 1000.0]
 
         end
 
@@ -416,8 +416,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = ones(Float64, n)
+            u = 10.0 * ones(Float64, n)
 
         end
 
@@ -481,8 +481,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = [-1.0, -50.0, 15.0]
+            u = [50.0, 10.0, 50.0]
 
         end
 
@@ -515,8 +515,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = [-5.0, 0.0]
+            u = [0.3, 10.0]
 
         end
 
@@ -547,8 +547,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = [0.0, 0.0, -10.0, -10.0]
+            u = [35.0, 10.0, 10.0, 0.0]
 
         end
 
@@ -587,8 +587,9 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = zeros(Float64, n)
+            l[n] = 0.75 
+            u = ones(Float64, n)
 
         end
 
@@ -664,8 +665,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - ones(Float64, n)
+            u = 0.75 * ones(Float64, n)
 
         end
 
@@ -698,8 +699,8 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - ones(Float64, n)
+            u = 2.0 * ones(Float64, n)
 
         end
 
@@ -736,8 +737,10 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = zeros(Float64, n)
+            l[n] = 4.0
+            u = 50.0 * ones(Float64, n)
+            u[1] = 14.0, u[2] = 5.0, u[3] = 5.0, u[4] = 5.0
 
         end
 
@@ -776,8 +779,9 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - 5.0 * ones(Float64, n)
+            l[1] = 0.8
+            u = 10.0 * ones(Float64, n)
 
         end
 
@@ -809,8 +813,9 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - 5.0 * ones(Float64, n)
+            u = 10.0 * ones(Float64, n)
+            u[1] = 0.8
 
         end
 
@@ -857,8 +862,10 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = 2.0e5 * ones(Float64, n)
+            l[n-1] = 2.5e5
+            u = 1.0e7 * ones(Float64, n)
+            u[n] = 3.0e5
 
         end
 
@@ -904,8 +911,9 @@ function problem_generator_mw(
 
         else
 
-            # l 
-            # u
+            l = - 30.0 * ones(Float64, n) 
+            u = 30.0 * ones(Float64, n)
+            u[3] = 3.5, u[n] = -1.0
 
         end
 
