@@ -64,10 +64,10 @@ end
 # Path to file
 # -----------------------------------------------
 
-filename = "../data_files/mw_uncons_test_beta_001.dat"
+filename = "../data_files/mw_cons_test_beta_1.dat"
 
 # -----------------------------------------------
 # Funtion call
 # -----------------------------------------------
 
-runtest_mw( filename; unconstrained_prob = true )
+runtest_mw( filename; unconstrained_prob = false )

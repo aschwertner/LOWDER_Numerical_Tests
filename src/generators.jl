@@ -740,7 +740,10 @@ function problem_generator_mw(
             l = zeros(Float64, n)
             l[n] = 4.0
             u = 50.0 * ones(Float64, n)
-            u[1] = 14.0, u[2] = 5.0, u[3] = 5.0, u[4] = 5.0
+            u[1] = 14.0
+            u[2] = 5.0
+            u[3] = 5.0
+            u[4] = 5.0
 
         end
 
@@ -913,7 +916,8 @@ function problem_generator_mw(
 
             l = - 30.0 * ones(Float64, n) 
             u = 30.0 * ones(Float64, n)
-            u[3] = 3.5, u[n] = -1.0
+            u[3] = 3.5
+            u[n] = -1.0
 
         end
 
@@ -1226,7 +1230,7 @@ function problem_generator_hs(
         n = 2
         x = [10.0, 1.0]
         l = [- 1.5, 0.0]
-        u = [4.0. 3.0]
+        u = [4.0, 3.0]
         fmin = [ hs1, hs3, hs5 ]
 
     elseif nprob == 27
