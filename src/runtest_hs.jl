@@ -32,7 +32,7 @@ function runtest_hs(
                 print( file, " $(sol.solution[ j ])" )
     
             end
-            println( file, " $( sol.solution[ problems[ n ] ] )" )
+            println( file, " $( sol.solution[ n ] )" )
     
             println("succes!")
     
