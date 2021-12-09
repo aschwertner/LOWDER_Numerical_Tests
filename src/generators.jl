@@ -943,7 +943,7 @@ function problem_generator_hs(
                                 nprob::Int64
                                 )
 
-    @assert 1 ≤ nprob ≤ 100
+    @assert 1 ≤ nprob ≤ 100 "The number of the problem must satisfy 1 ≤ nprob ≤ 100."
 
     # Defines the objective functions based on Hock-Schittkowski test-set.
 
