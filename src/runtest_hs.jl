@@ -4,7 +4,6 @@ using LOWDER
 include("generators.jl")
 
 function runtest_hs(
-                    n_points::Int64,
                     filename::String
                     )
 
@@ -19,6 +18,8 @@ function runtest_hs(
     
             n = length(x)
             p = length(fmin)
+
+            n_points = n + 1
     
             # Solves the problem using 'lowder'
             sol = LOWDER.lowder( fmin, x, l, u; m = n_points )
@@ -48,3 +49,15 @@ function runtest_hs(
     close( file )
 
 end
+
+# -----------------------------------------------
+# Path to file
+# -----------------------------------------------
+
+filename = "../data_files/hs_cons.dat"
+
+# -----------------------------------------------
+# Funtion call
+# -----------------------------------------------
+
+runtest_hs( filename )

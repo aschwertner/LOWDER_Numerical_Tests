@@ -4,8 +4,6 @@ using LOWDER
 include("generators.jl")
 
 function runtest_mw(
-                    δinit::Float64, 
-                    Δinit::Float64,
                     filename::String;
                     unconstrained_prob::Bool=false
                     )
@@ -34,12 +32,12 @@ function runtest_mw(
             ( x, l, u, fmin ) = problem_generator_mw( nprob, n, p, rsp; unconstrained = unconstrained_prob )
 
             # Solves the problem using 'lowder'
-            sol = LOWDER.lowder( fmin, x, l, u; δ = δinit, Δ = Δinit, m = n_points, β = 0.01 )
+            sol = LOWDER.lowder( fmin, x, l, u; m = n_points )
 
             # Saves info
             text = "$( n ) $( p ) $( sol.status ) $( sol.true_val ) $( sol.iter ) $( sol.nf ) $( sol.nf / p ) $( sol.stationarity ) $( sol.sample_radius ) $( sol.tr_radius ) $( sol.index ) $( sol.f )"
             print( file, text )
-            for j = 1 : ( problems[ i, 2 ] - 1 )
+            for j = 1 : ( n - 1 )
 
                 print( file, " $(sol.solution[ j ])" )
 
@@ -69,14 +67,7 @@ end
 filename = "../data_files/mw_uncons_test_beta_001.dat"
 
 # -----------------------------------------------
-# LOWDER parameters
-# -----------------------------------------------
-
-δinit = 2.0
-Δinit = 2.0
-
-# -----------------------------------------------
 # Funtion call
 # -----------------------------------------------
 
-runtest_mw( δinit, Δinit, filename; unconstrained_prob = true )
+runtest_mw( filename; unconstrained_prob = true )
