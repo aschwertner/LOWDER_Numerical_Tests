@@ -4,14 +4,14 @@ using Test
 
     ex = :(a)
 
-    s = Set()
+    s = Set{Symbol}()
 
     @test(getsymbols!(ex, s) == ex)
     @test(isempty(s))
 
     ex = :(tunninginput(a))
 
-    s = Set()
+    s = Set{Symbol}()
 
     @test(getsymbols!(ex, s) == :(a))
     @test(ex == :(tunninginput(a)))
@@ -19,7 +19,7 @@ using Test
     
     ex = :(f(tunninginput(a), b))
 
-    s = Set()
+    s = Set{Symbol}()
 
     @test(getsymbols!(ex, s) == :(f(a, b)))
     @test(ex == :(f(tunninginput(a), b)))
@@ -27,8 +27,8 @@ using Test
     
     ex = :(f(cos(sin(tunninginput(a))), [tunninginput(b), tunninginput(c), 5]))
 
-    s = Set()
-    
+    s = Set{Symbol}()
+
     @test(getsymbols!(ex, s) == :(f(cos(sin(a)), [b, c, 5])))
     @test(ex == :(f(cos(sin(tunninginput(a))), [tunninginput(b), tunninginput(c), 5])))
     @test(s == Set([:a, :b, :c]))
