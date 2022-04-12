@@ -1,6 +1,7 @@
 using JSOSolvers: tron
 using NLPModels, CUTEst
 using Logging
+using LOWDER
 
 include("autotunning.jl")
 
@@ -82,3 +83,8 @@ end
 l = [      1.0e-8, 3/4, 1.0 + 1.0e-3, 1.0e-8];
 u = [3/4 - 1.0e-8, 1.0,        1.0e3, 9.0e-1];
 ;
+
+x = zeros(Float64, 4)
+copyto!(x, l)
+
+sol = LOWDER.lowder(flist, x, l, u; m =  (length(x) + 1), verbose = 3)
