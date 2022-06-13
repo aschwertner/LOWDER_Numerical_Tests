@@ -5,6 +5,8 @@ using LOWDER
 
 include("autotunning.jl")
 
+println("Step 01 ... importing packages and modules ... OK!")
+
 # All problems with at most bounds
 #const problems = [CUTEst.select(contype="unc");
 #                  CUTEst.select(contype="bounds")]
@@ -15,6 +17,8 @@ PRBS = setdiff(CUTEst.select(max_var=2, contype="unc"),
                          ["S308NE"])[1:5]
 
 # Code to generate several f_i's
+
+println("Step 02 ... defining set of problems ... OK!")
 
 MAX_TIME = 2.0
 
@@ -38,7 +42,7 @@ flist = @copycode tron begin
 
             with_logger(NullLogger()) do
                 
-                s = tron(nlp; μ₀=tunningvar(1), μ₁=tunningvar(2), σ=tunningvar(4), cgtol=tunningvar(3),
+                s = tron(nlp; μ₀=tunningvar(1), μ₁=tunningvar(2), σ=tunningvar(3), cgtol=tunningvar(4),
                          max_time=max_time,
                          # These arguments define uniquely the solver
                          use_only_objgrad=tunningexpand([true, false]),
@@ -79,6 +83,8 @@ flist = @copycode tron begin
 
 end
 
+println("Step 03 ... defining hypertunning functions ... OK!")
+
 # Bounds for μ0, μ1, σ, cgtol
 l = [      1.0e-8, 3/4, 1.0 + 1.0e-3, 1.0e-8];
 u = [3/4 - 1.0e-8, 1.0,        1.0e3, 9.0e-1];
@@ -86,5 +92,7 @@ u = [3/4 - 1.0e-8, 1.0,        1.0e3, 9.0e-1];
 
 x = zeros(Float64, 4)
 copyto!(x, l)
+
+println("Step 04 ... setting hypertunning problem ... OK!")
 
 sol = LOWDER.lowder(flist, x, l, u; m =  (length(x) + 1), verbose = 3)
