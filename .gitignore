@@ -24,7 +24,9 @@ docs/site/
 # Manifest.toml
 
 # Folder containing the algorithms that will be used for comparison: GRANSO, HANSO, SLQPGS.
-src/algorithms/
+src/comparison/GRANSO/
+src/comparison/HANSO/
+src/comparison/SLQPGS/
 
 # Emacs temporary files
 *~
