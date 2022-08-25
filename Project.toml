@@ -2,6 +2,7 @@
 CUTEst = "1b53aba6-35b6-5f92-a507-53c67d53f819"
 DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 JSOSolvers = "10dff2fc-5484-5881-a0e0-c90441020f8a"
+MATDaemon = "88578114-2e0c-4679-8b18-24dc4fa60bec"
 MATLAB = "10e44e05-a98a-55b3-a45b-ba969058deb6"
 NLPModels = "a4795742-8479-5a88-8948-cc11e1c8c1a6"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
