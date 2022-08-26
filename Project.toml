@@ -1,6 +1,7 @@
 [deps]
 CUTEst = "1b53aba6-35b6-5f92-a507-53c67d53f819"
 DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 JSOSolvers = "10dff2fc-5484-5881-a0e0-c90441020f8a"
 MATDaemon = "88578114-2e0c-4679-8b18-24dc4fa60bec"
 MATLAB = "10e44e05-a98a-55b3-a45b-ba969058deb6"
