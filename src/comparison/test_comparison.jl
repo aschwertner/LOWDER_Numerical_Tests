@@ -59,7 +59,7 @@ function cons(x, l, u)
 
     end
 
-    return ci
+    return ci, ci_grad
 
 end
 
