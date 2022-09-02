@@ -1,50 +1,60 @@
 function sol = runExemplo()
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
 
+    % Adds the path to the GRANSO solver
     addpath("GRANSO/");
 
+    % Saves the path to the directory containing the file 
+    % 'problem_global.jl'
     current_directory = pwd();
     file_directory = strcat(current_directory, '/problem_global.jl');
 
+    % Selects problem 01
     np = 1;
+
+    % Sets the problem number 'np' in the global scope of the Julia 
+    % session.
     jlcall('problem', {np}, 'setup', file_directory);
 
+    % Saves the path to the directory containing the file 
+    % 'comparison.jl'
     file_directory = strcat(current_directory, '/comparison.jl');
 
+    % Calculates the starting point and dimension of the problem.
     [x0, nvar] = jlcall('problem_init_dim', {}, 'setup', file_directory);
 
+    % Converts the problem start point and dimension to the 'double' type.
     nvar = double(nvar);
+    opts.x0 = double(x0);
+  
+    % Sets the equality constraint set to empty.
+    eq_constraints = [];
 
-    %disp(class(nvar));
-    %disp(x0);
-   
-    %nvar    = 9;    % número de variáveis do problema
-    eq_fn   = [];   % não há restrições de igualdade
-    soln    = granso(nvar, @objetivo1, @restricoes1, eq_fn);
+    % Calls the solver.
+    sol = granso(nvar, @objective_func, @ineq_constraints, ...
+        eq_constraints, opts);
 
 end
 
-function [f, fgrad] = objetivo1(x)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+function [f, fgrad] = objective_func(x)
 
+    % Saves the path to the directory containing the file 
+    % 'comparison.jl
     current_directory = pwd();
     file_directory = strcat(current_directory, '/comparison.jl');
 
-    % Calcula as restrições de desigualdade e seu gradiente
+    % Calculates the objective function and its gradient
     [f, fgrad] = jlcall('f_obj', {x}, 'setup', file_directory);
 
 end
 
-function [c, cgrad] = restricoes1(x)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+function [c, cgrad] = ineq_constraints(x)
 
+    % Saves the path to the directory containing the file 
+    % 'comparison.jl
     current_directory = pwd();
-    file_directory = strcat(current_directory, '/test_comparison.jl');
+    file_directory = strcat(current_directory, '/comparison.jl');
 
-    % Calcula as restrições de desigualdade e seu gradiente
+    % Computes the inequality constraints and its gradient
     [c, cgrad] = jlcall('c_obj', {x}, 'setup', file_directory);
 
 end
