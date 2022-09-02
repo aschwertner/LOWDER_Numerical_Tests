@@ -1,5 +1,6 @@
 # ------------------------------------------------------------------------------
-# Makes the contents of 'A' to become a global variable called 'B', of type Int.
+# Makes the contents of 'problem_number' to become a global variable called 
+# 'np', of type Int.
 # ------------------------------------------------------------------------------
 
 function problem(problem_number)
