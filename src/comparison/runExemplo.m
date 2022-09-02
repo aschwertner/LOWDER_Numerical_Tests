@@ -33,6 +33,15 @@ function sol = runExemplo()
     sol = granso(nvar, @objective_func, @ineq_constraints, ...
         eq_constraints, opts);
 
+    % Saves info about solution
+    fileID = fopen('mw_testset_GRANSO.txt','w');
+    text = [nvar; sol.most_feasible.f];
+    fprintf(fileID,'%d %e ', text);
+    fprintf(fileID, '[%g, ', sol.most_feasible.x(1));
+    fprintf(fileID, '%g, ', sol.most_feasible.x(2:end-1));
+    fprintf(fileID, '%g]', sol.most_feasible.x(end));
+    fclose(fileID);
+
 end
 
 function [f, fgrad] = objective_func(x)
