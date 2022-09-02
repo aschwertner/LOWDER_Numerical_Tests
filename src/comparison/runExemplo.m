@@ -35,8 +35,9 @@ function sol = runExemplo()
 
     % Saves info about solution
     fileID = fopen('mw_testset_GRANSO.txt','w');
-    text = [nvar; sol.most_feasible.f];
-    fprintf(fileID,'%d %e ', text);
+    text = [nvar; sol.iters; sol.fn_evals; sol.termination_code; 
+        sol.most_feasible.f];
+    fprintf(fileID,'%d %d %d %d %e ', text);
     fprintf(fileID, '[%g, ', sol.most_feasible.x(1));
     fprintf(fileID, '%g, ', sol.most_feasible.x(2:end-1));
     fprintf(fileID, '%g]', sol.most_feasible.x(end));
