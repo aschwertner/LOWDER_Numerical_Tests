@@ -10,48 +10,72 @@ function sol = runExemplo()
     file_directory_2 = strcat(current_directory, '/comparison.jl');
 
     % Creates the file that will receive the execution data.
-    fileID = fopen('mw_GRANSO.txt','w');
+    file_directory_3 = strcat(fileparts(fileparts(current_directory)), ...
+        '/data_files/mw_GRANSO.dat');
+    fileID = fopen(file_directory_3, 'w');
 
     % Selects problem 'np'
-    np = 1;
+    for np = 1:53
 
-    % Sets the problem number 'np' in the global scope of the Julia 
-    % session.
-    jlcall('problem', {np}, 'setup', file_directory_1);
+        try
 
-    % Calculates the starting point, dimension of the problem, and number 
-    % of functions that make up fmin.
-    [x0, nvar, nfi] = jlcall('problem_init_dim', {}, 'setup', ...
-        file_directory_2);
+            % Sets the problem number 'np' in the global scope of the Julia 
+            % session.
+            jlcall('problem', {np}, 'setup', file_directory_1);
 
-    % Converts the problem start point and dimension to the 'double' type.
-    nvar = double(nvar);
-    opts.x0 = double(x0);
+            % Calculates the starting point, dimension of the problem, and 
+            % number of functions that make up fmin.
+            [x0, nvar, nfi] = jlcall('problem_init_dim', {}, 'setup', ...
+                file_directory_2);
+
+            % Converts the problem start point and dimension to the 
+            % 'double' type.
+            nvar = double(nvar);
+            opts.x0 = double(x0);
   
-    % Sets the equality constraint set to empty.
-    eq_constraints = [];
+            % Sets the equality constraint set to empty.
+            eq_constraints = [];
 
-    % Sets tolerance for stationarity and acceptable total violation for 
-    % inequality constraints, and maximum number of iterations
-    opts.opt_tol = 1e-4;
-    opts.maxit = 1000 * nvar;
-    opts.viol_ineq_tol = sqrt(eps());
+            % Sets tolerance for stationarity and acceptable total 
+            % violation for inequality constraints, and maximum number of 
+            % iterations
+            opts.opt_tol = 1e-4;
+            opts.maxit = 1000 * nvar;
+            opts.viol_ineq_tol = sqrt(eps());
 
-    % Calls the solver.
-    sol = granso(nvar, @objective_func, @ineq_constraints, ...
-        eq_constraints, opts);
+            % Calls the solver.
+            sol = granso(nvar, @objective_func, @ineq_constraints, ...
+                eq_constraints, opts);
 
-    % Computes the number of fi evaluations.
-    fi_evals = sol.fn_evals * nfi;
+            % Computes the number of fi evaluations.
+            fi_evals = sol.fn_evals * nfi;
 
-    % Saves info about solution
+            % Saves info about solution.
+            text = [nvar; sol.iters; sol.fn_evals; fi_evals; 
+                sol.termination_code; sol.most_feasible.f; 
+                sol.most_feasible.tvi; sol.stat_value ];
+            fprintf(fileID,'%d %d %d %d %d %.4e %.4e %.4e\n', text);
 
-    text = [nvar; sol.iters; sol.fn_evals; fi_evals; sol.termination_code; 
-        sol.most_feasible.f; sol.most_feasible.tvi; sol.stat_value ];
-    fprintf(fileID,'%d %d %d %d %d %.4e %.4e %.4e ', text);
-    fprintf(fileID, '[%g, ', sol.most_feasible.x(1));
-    fprintf(fileID, '%g, ', sol.most_feasible.x(2:end-1));
-    fprintf(fileID, '%g]\n', sol.most_feasible.x(end));
+            % Display info.
+            text_display = strcat("Running problem ", string(np), ...
+                " ... success!");
+            disp(text_display);
+
+        catch
+
+            % Saves info about solution.
+            fprintf(fileID, '%s\n', 'execution_fail');
+            
+            % Display info.
+            text_display = strcat("Running problem ", string(np), ...
+                " ... fail!");
+            disp(text_display);
+
+        end
+
+    end
+
+    % Close file.
     fclose(fileID);
 
 end
