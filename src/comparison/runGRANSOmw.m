@@ -78,6 +78,8 @@ function sol = runGRANSOmw()
     % Close file.
     fclose(fileID);
 
+    disp("Testset complete.")
+
 end
 
 function [f, fgrad] = objective_func(x)
