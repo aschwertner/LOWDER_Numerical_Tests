@@ -1,4 +1,4 @@
-function sol = runExemplo()
+function sol = runGRANSOmw()
 
     % Adds the path to the GRANSO solver
     addpath("GRANSO/");
