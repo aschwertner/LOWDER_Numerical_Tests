@@ -3,26 +3,26 @@ function sol = runExemplo()
     % Adds the path to the GRANSO solver
     addpath("GRANSO/");
 
-    % Saves the path to the directory containing the file 
-    % 'problem_global.jl'
+    % Saves the paths to the directories containing the files 
+    % 'problem_global.jl' and 'comparison.jl'
     current_directory = pwd();
-    file_directory = strcat(current_directory, '/problem_global.jl');
+    file_directory_1 = strcat(current_directory, '/problem_global.jl');
+    file_directory_2 = strcat(current_directory, '/comparison.jl');
 
-    % Selects problem 01
+    % Creates the file that will receive the execution data.
+    fileID = fopen('mw_GRANSO.txt','w');
+
+    % Selects problem 'np'
     np = 1;
 
     % Sets the problem number 'np' in the global scope of the Julia 
     % session.
-    jlcall('problem', {np}, 'setup', file_directory);
-
-    % Saves the path to the directory containing the file 
-    % 'comparison.jl'
-    file_directory = strcat(current_directory, '/comparison.jl');
+    jlcall('problem', {np}, 'setup', file_directory_1);
 
     % Calculates the starting point, dimension of the problem, and number 
     % of functions that make up fmin.
     [x0, nvar, nfi] = jlcall('problem_init_dim', {}, 'setup', ...
-        file_directory);
+        file_directory_2);
 
     % Converts the problem start point and dimension to the 'double' type.
     nvar = double(nvar);
@@ -31,18 +31,21 @@ function sol = runExemplo()
     % Sets the equality constraint set to empty.
     eq_constraints = [];
 
+    % Sets tolerance for stationarity and acceptable total violation for 
+    % inequality constraints, and maximum number of iterations
+    opts.opt_tol = 1e-4;
+    opts.maxit = 1000 * nvar;
+    opts.viol_ineq_tol = sqrt(eps());
+
     % Calls the solver.
     sol = granso(nvar, @objective_func, @ineq_constraints, ...
         eq_constraints, opts);
 
+    % Computes the number of fi evaluations.
     fi_evals = sol.fn_evals * nfi;
 
-    disp(sol.most_feasible.f);
-    disp(sol.most_feasible.tvi);
-    disp(sol.stat_value);
-
     % Saves info about solution
-    fileID = fopen('mw_testset_GRANSO.txt','w');
+
     text = [nvar; sol.iters; sol.fn_evals; fi_evals; sol.termination_code; 
         sol.most_feasible.f; sol.most_feasible.tvi; sol.stat_value ];
     fprintf(fileID,'%d %d %d %d %d %.4e %.4e %.4e ', text);
