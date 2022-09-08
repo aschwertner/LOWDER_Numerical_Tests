@@ -41,8 +41,9 @@ end
 # Generates the problem
 ( x0, l, u, fmin ) = problem_info(np, problems)
 
-# Informs MatLab about initial guest and problem dimension
-problem_init_dim() = x0, length(x0)
+# Informs MatLab about initial guest, problem dimension, and number of 
+# functions that make up fmin.
+problem_init_dim() = x0, length(x0), length(fmin)
 
 
 # ------------------------------------------------------------------------------

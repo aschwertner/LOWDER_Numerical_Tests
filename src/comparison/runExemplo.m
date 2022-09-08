@@ -19,8 +19,10 @@ function sol = runExemplo()
     % 'comparison.jl'
     file_directory = strcat(current_directory, '/comparison.jl');
 
-    % Calculates the starting point and dimension of the problem.
-    [x0, nvar] = jlcall('problem_init_dim', {}, 'setup', file_directory);
+    % Calculates the starting point, dimension of the problem, and number 
+    % of functions that make up fmin.
+    [x0, nvar, nfi] = jlcall('problem_init_dim', {}, 'setup', ...
+        file_directory);
 
     % Converts the problem start point and dimension to the 'double' type.
     nvar = double(nvar);
@@ -33,15 +35,17 @@ function sol = runExemplo()
     sol = granso(nvar, @objective_func, @ineq_constraints, ...
         eq_constraints, opts);
 
+    fi_evals = sol.fn_evals * nfi;
+
     % Saves info about solution
-    fileID = fopen('mw_testset_GRANSO.txt','w');
-    text = [nvar; sol.iters; sol.fn_evals; sol.termination_code; 
-        sol.most_feasible.f];
-    fprintf(fileID,'%d %d %d %d %e ', text);
-    fprintf(fileID, '[%g, ', sol.most_feasible.x(1));
-    fprintf(fileID, '%g, ', sol.most_feasible.x(2:end-1));
-    fprintf(fileID, '%g]', sol.most_feasible.x(end));
-    fclose(fileID);
+    %fileID = fopen('mw_testset_GRANSO.txt','w');
+    %text = [nvar; sol.iters; sol.fn_evals; fi_evals; sol.termination_code; 
+    %    sol.most_feasible.f];
+    %fprintf(fileID,'%d %d %d %d %d %e ', text);
+    %fprintf(fileID, '[%g, ', sol.most_feasible.x(1));
+    %fprintf(fileID, '%g, ', sol.most_feasible.x(2:end-1));
+    %fprintf(fileID, '%g]\n', sol.most_feasible.x(end));
+    %fclose(fileID);
 
 end
 
