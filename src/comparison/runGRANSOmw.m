@@ -11,7 +11,7 @@ function sol = runGRANSOmw()
 
     % Creates the file that will receive the execution data.
     file_directory_3 = strcat(fileparts(fileparts(current_directory)), ...
-        '/data_files/mw_GRANSO.dat');
+        '/data_files/mw_GRANSO_teste3.dat');
     fileID = fopen(file_directory_3, 'w');
 
     % Selects problem 'np'
@@ -20,8 +20,9 @@ function sol = runGRANSOmw()
         try
 
             % Sets the problem number 'np' in the global scope of the Julia 
-            % session.
-            jlcall('problem', {np}, 'setup', file_directory_1);
+            % session. Also restart Julia server environment.
+            jlcall('problem', {np}, 'setup', file_directory_1, ...
+                'restart', true);
 
             % Calculates the starting point, dimension of the problem, and 
             % number of functions that make up fmin.
@@ -36,12 +37,10 @@ function sol = runGRANSOmw()
             % Sets the equality constraint set to empty.
             eq_constraints = [];
 
-            % Sets tolerance for stationarity and acceptable total 
-            % violation for inequality constraints, and maximum number of 
+            % Sets tolerance for stationarity, and maximum number of 
             % iterations
             opts.opt_tol = 1e-4;
-            opts.maxit = 1000 * nvar;
-            opts.viol_ineq_tol = sqrt(eps());
+            opts.maxit = 100 * nvar;
 
             % Calls the solver.
             sol = granso(nvar, @objective_func, @ineq_constraints, ...
@@ -52,9 +51,9 @@ function sol = runGRANSOmw()
 
             % Saves info about solution.
             text = [nvar; sol.iters; sol.fn_evals; fi_evals; 
-                sol.termination_code; sol.most_feasible.f; 
-                sol.most_feasible.tvi; sol.stat_value ];
-            fprintf(fileID,'%d %d %d %d %d %.4e %.4e %.4e\n', text);
+                sol.most_feasible.f; sol.stat_value; sol.most_feasible.tvi; 
+                sol.termination_code];
+            fprintf(fileID,'%d %d %d %d %.4e %.4e %.4e %d\n', text);
 
             % Display info.
             text_display = strcat("Running problem ", string(np), ...
