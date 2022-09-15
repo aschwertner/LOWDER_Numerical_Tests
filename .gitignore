@@ -40,3 +40,6 @@ data_files/old_tests
 # Emacs temporary files
 *~
 
+
+# Remove this later:
+data_files/
