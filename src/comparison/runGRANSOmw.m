@@ -4,7 +4,7 @@ function sol = runGRANSOmw()
     addpath("GRANSO/");
 
     % Saves the paths to the directories containing the files 
-    % 'problem_global.jl' and 'comparison.jl'.
+    % 'problem_global.jl' and 'comparison_mw.jl'.
     current_directory = pwd();
     file_directory_1 = strcat(current_directory, '/problem_global.jl');
     file_directory_2 = strcat(current_directory, '/comparison_mw.jl');
