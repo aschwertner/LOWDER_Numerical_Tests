@@ -7,7 +7,7 @@ function sol = runGRANSOmw()
     % 'problem_global.jl' and 'comparison.jl'.
     current_directory = pwd();
     file_directory_1 = strcat(current_directory, '/problem_global.jl');
-    file_directory_2 = strcat(current_directory, '/comparison.jl');
+    file_directory_2 = strcat(current_directory, '/comparison_mw.jl');
 
     % Creates the file that will receive the execution data.
     file_directory_3 = strcat(fileparts(fileparts(current_directory)), ...
