@@ -1,14 +1,24 @@
+# ------------------------------------------------------------------------------
+# Packages and other functions
+# ------------------------------------------------------------------------------
+
 using DelimitedFiles
 using LOWDER
+using Printf
 
-directory = pwd()
 include("../generators.jl")
+
+
+# ------------------------------------------------------------------------------
+# Run MW testset
+# ------------------------------------------------------------------------------
 
 function runtest_mw(
                     filename::String;
                     unconstrained_prob::Bool=false
                     )
 
+    directory = pwd()
     source_filename = directory * "/src/CUTEr_selected_problems.dat"
 
     problems = readdlm( source_filename, Int64 )
@@ -16,7 +26,7 @@ function runtest_mw(
 
     file = open( filename, "w" )
 
-    for i = 1 : 1
+    for i = 1 : total_prob
 
         print("Running: $( i ) of $( total_prob ) ... ")
 
@@ -29,29 +39,29 @@ function runtest_mw(
 
         try
             
-            # Generates the problem
-            ( x, l, u, fmin ) = problem_generator_mw( nprob, n, p, rsp; unconstrained = unconstrained_prob )
+            # Generates the problem.
+            ( x, l, u, fmin ) = problem_generator_mw( nprob, n, p, rsp; 
+                                    unconstrained = unconstrained_prob )
 
-            # Solves the problem using 'lowder'
-            sol = LOWDER.lowder( fmin, x, l, u; m = n_points )
+            # Solves the problem using 'lowder'.
+            sol = LOWDER.lowder( fmin, x, l, u; m = n_points, maxit = 100 * n )
 
-            # Saves info
-            # text = "$( n ) $( p ) $( sol.status ) $( sol.true_val ) $( sol.iter ) $( sol.nf ) $( sol.nf / p ) $( sol.stationarity ) $( sol.sample_radius ) $( sol.tr_radius ) $( sol.index ) $( sol.f )"
-            text = "$( n ) $( sol.iter ) $( sol.nf / p ) $( sol.nf ) $( sol.status ) $( sol.f ) $( sol.true_val ) $( sol.stationarity )"
+            # Saves info about solution.
+            nfmin = sol.nf / p
+            text = @sprintf("%d %d %.2f %d %.4e %.4e %s %s", n, sol.iter, 
+                        nfmin, sol.nf, sol.f, sol.stationarity, sol.true_val, 
+                        sol.status);
             println( file, text )
-            #for j = 1 : ( n - 1 )
 
-            #    print( file, " $(sol.solution[ j ])" )
-
-            #end
-            #println( file, " $( sol.solution[ n ] )" )
-
+            # Display info.
             println("succes!")
 
         catch
 
+            # Saves info about solution.
             println( file, "execution_fail" )
 
+            # Display info.
             println("fail!")
 
         end
@@ -62,14 +72,17 @@ function runtest_mw(
 
 end
 
-# -----------------------------------------------
+
+# ------------------------------------------------------------------------------
 # Path to file
-# -----------------------------------------------
+# ------------------------------------------------------------------------------
 
-filename = directory * "/data_files/mw_cons_test_beta_1.dat"
+directory = pwd()
+filename = directory * "/data_files/mw_LOWDER.dat"
 
-# -----------------------------------------------
+
+# ------------------------------------------------------------------------------
 # Funtion call
-# -----------------------------------------------
+# ------------------------------------------------------------------------------
 
 runtest_mw( filename; unconstrained_prob = false )
