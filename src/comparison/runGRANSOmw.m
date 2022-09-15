@@ -1,10 +1,10 @@
 function sol = runGRANSOmw()
 
-    % Adds the path to the GRANSO solver
+    % Adds the path to the GRANSO solver.
     addpath("GRANSO/");
 
     % Saves the paths to the directories containing the files 
-    % 'problem_global.jl' and 'comparison.jl'
+    % 'problem_global.jl' and 'comparison.jl'.
     current_directory = pwd();
     file_directory_1 = strcat(current_directory, '/problem_global.jl');
     file_directory_2 = strcat(current_directory, '/comparison.jl');
@@ -14,7 +14,7 @@ function sol = runGRANSOmw()
         '/data_files/mw_GRANSO_teste3.dat');
     fileID = fopen(file_directory_3, 'w');
 
-    % Selects problem 'np'
+    % Selects problem 'np'.
     for np = 1:53
 
         try
@@ -37,10 +37,11 @@ function sol = runGRANSOmw()
             % Sets the equality constraint set to empty.
             eq_constraints = [];
 
-            % Sets tolerance for stationarity, and maximum number of 
-            % iterations
+            % Sets tolerance for stationarity, maximum number of 
+            % iterations, and maximum clock time.
             opts.opt_tol = 1e-4;
             opts.maxit = 100 * nvar;
+            opts.maxclocktime = 1800;
 
             % Calls the solver.
             sol = granso(nvar, @objective_func, @ineq_constraints, ...
@@ -84,11 +85,11 @@ end
 function [f, fgrad] = objective_func(x)
 
     % Saves the path to the directory containing the file 
-    % 'comparison.jl
+    % 'comparison.jl'.
     current_directory = pwd();
     file_directory = strcat(current_directory, '/comparison.jl');
 
-    % Calculates the objective function and its gradient
+    % Calculates the objective function and its gradient.
     [f, fgrad] = jlcall('f_obj', {x}, 'setup', file_directory);
 
 end
@@ -96,11 +97,11 @@ end
 function [c, cgrad] = ineq_constraints(x)
 
     % Saves the path to the directory containing the file 
-    % 'comparison.jl
+    % 'comparison.jl'.
     current_directory = pwd();
     file_directory = strcat(current_directory, '/comparison.jl');
 
-    % Computes the inequality constraints and its gradient
+    % Computes the inequality constraints and its gradient.
     [c, cgrad] = jlcall('c_obj', {x}, 'setup', file_directory);
 
 end
