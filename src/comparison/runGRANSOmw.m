@@ -87,7 +87,7 @@ function [f, fgrad] = objective_func(x)
     % Saves the path to the directory containing the file 
     % 'comparison.jl'.
     current_directory = pwd();
-    file_directory = strcat(current_directory, '/comparison.jl');
+    file_directory = strcat(current_directory, '/comparison_mw.jl');
 
     % Calculates the objective function and its gradient.
     [f, fgrad] = jlcall('f_obj', {x}, 'setup' , file_directory);
@@ -99,7 +99,7 @@ function [c, cgrad] = ineq_constraints(x)
     % Saves the path to the directory containing the file 
     % 'comparison.jl'.
     current_directory = pwd();
-    file_directory = strcat(current_directory, '/comparison.jl');
+    file_directory = strcat(current_directory, '/comparison_mw.jl');
 
     % Computes the inequality constraints and its gradient.
     [c, cgrad] = jlcall('c_obj', {x}, 'setup', file_directory);
