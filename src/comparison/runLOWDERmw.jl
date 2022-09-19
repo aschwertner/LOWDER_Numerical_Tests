@@ -59,7 +59,7 @@ function runtest_mw(
         catch
 
             # Saves info about solution.
-            println( file, "execution_fail" )
+            println( file, "NaN NaN NaN NaN NaN NaN NaN NaN" )
 
             # Display info.
             println("fail!")

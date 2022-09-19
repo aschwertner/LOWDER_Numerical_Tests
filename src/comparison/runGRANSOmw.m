@@ -64,7 +64,7 @@ function sol = runGRANSOmw()
         catch
 
             % Saves info about solution.
-            fprintf(fileID, '%s\n', 'execution_fail');
+            fprintf(fileID, '%s\n', 'NaN NaN NaN NaN NaN NaN NaN NaN');
             
             % Display info.
             text_display = strcat("Running problem ", string(np), ...
@@ -90,7 +90,7 @@ function [f, fgrad] = objective_func(x)
     file_directory = strcat(current_directory, '/comparison.jl');
 
     % Calculates the objective function and its gradient.
-    [f, fgrad] = jlcall('f_obj', {x}, 'setup', file_directory);
+    [f, fgrad] = jlcall('f_obj', {x}, 'setup' , file_directory);
 
 end
 
