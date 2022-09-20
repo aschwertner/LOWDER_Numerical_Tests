@@ -47,7 +47,7 @@ problem_init_dim() = x0, length(x0), length(fmin)
 
 
 # ------------------------------------------------------------------------------
-# Problem definition (objective function and constraints)
+# Problem definition (objective function and constraints) for GRANSO
 # ------------------------------------------------------------------------------
 
 # Defines the objective function and its gradient
@@ -96,3 +96,97 @@ end
 
 f_obj(x) = obj(x, fmin)
 c_obj(x) = cons(x, l, u)
+
+# ------------------------------------------------------------------------------
+# Problem definition (objective function and constraints) for SLQPGS
+# ------------------------------------------------------------------------------
+
+# Defines the objective function and the corresponding function index
+function obj_function(x, fmin)
+
+    m = length(fmin)
+    fx = fmin[1](x)
+    f_index = 1
+    for i=2:m
+
+        fy = fmin[i](x)
+
+        if fy < fx
+
+            fx = fy
+            f_index = i
+
+        end
+
+    end
+
+    return fx
+
+end
+
+# Defines the gradient of objective function
+function obj_function_grad(x, fmin)
+
+    m = length(fmin)
+    fx = fmin[1](x)
+    f_index = 1
+    for i=2:m
+
+        fy = fmin[i](x)
+
+        if fy < fx
+
+            fx = fy
+            f_index = i
+
+        end
+
+    end
+
+    return ForwardDiff.gradient(fmin[f_index], x)
+
+end
+
+# Defines the inequality constraints function
+function cons_function(x, j, l, u)
+
+    d, r = divrem(j, 2)
+
+    if r == 0
+
+        cj = l[d] - x[d]
+
+    else
+
+        cj = x[d+1] - u[d+1]
+
+    end
+
+    return cj
+
+end
+
+# Defines the gradient for inequality constraints function (row vector)
+function cons_function_grad(x, j)
+
+    n = length(x)
+    cj_grad = zeros(n)'
+    d, r = divrem(j, 2)
+
+    if r == 0
+
+        cj_grad[d] = - 1.0
+
+    else
+
+        cj_grad[d+1] = 1.0
+
+    end
+
+    return cj_grad
+
+end
+
+obj_f(x) = obj_function(x, fmin)
+obj_f_grad(x) = obj_function_grad(x, fmin)
+cons_f(x, j) = cons_function(x, j, l, u)
