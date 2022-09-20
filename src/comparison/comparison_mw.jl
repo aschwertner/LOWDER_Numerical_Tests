@@ -150,7 +150,7 @@ end
 # Defines the inequality constraints function
 function cons_function(x, j, l, u)
 
-    d, r = divrem(j, 2)
+    d, r = divrem(Int(j), 2)
 
     if r == 0
 
@@ -171,7 +171,7 @@ function cons_function_grad(x, j)
 
     n = length(x)
     cj_grad = zeros(n)'
-    d, r = divrem(j, 2)
+    d, r = divrem(Int(j), 2)
 
     if r == 0
 
