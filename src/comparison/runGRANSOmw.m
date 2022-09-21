@@ -85,7 +85,7 @@ end
 function [f, fgrad] = objective_func(x)
 
     % Saves the path to the directory containing the file 
-    % 'comparison.jl'.
+    % 'comparison_mw.jl'.
     current_directory = pwd();
     file_directory = strcat(current_directory, '/comparison_mw.jl');
 
@@ -97,7 +97,7 @@ end
 function [c, cgrad] = ineq_constraints(x)
 
     % Saves the path to the directory containing the file 
-    % 'comparison.jl'.
+    % 'comparison_mw.jl'.
     current_directory = pwd();
     file_directory = strcat(current_directory, '/comparison_mw.jl');
 
