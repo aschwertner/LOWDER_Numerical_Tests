@@ -1153,22 +1153,13 @@ function problem_generator_hs(
 
     elseif nprob == 17
 
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs4, hs45 ]
-
-    elseif nprob == 18
-
         n = 10
         x = 9.0 * ones(Float64, n)
         l = 2.001 * ones(Float64, n)
         u = 9.999 * ones(Float64, n)
         fmin = [ hs4, hs110 ]
 
-    elseif nprob == 19
+    elseif nprob == 18
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1176,7 +1167,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 10.0, 10.0 ]
         fmin = [ hs5, hs38 ]
 
-    elseif nprob == 20
+    elseif nprob == 19
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1184,7 +1175,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs5, hs45 ]
 
-    elseif nprob == 21
+    elseif nprob == 20
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1192,7 +1183,7 @@ function problem_generator_hs(
         u = [ 10.0, 10.0, 5.0, 10.0 ]
         fmin = [ hs25, hs38 ]
 
-    elseif nprob == 22
+    elseif nprob == 21
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1201,7 +1192,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs25, hs45 ]
 
-    elseif nprob == 23
+    elseif nprob == 22
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1209,7 +1200,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs38, hs45 ]
 
-    elseif nprob == 24
+    elseif nprob == 23
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1217,7 +1208,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs38, hs110 ]
 
-    elseif nprob == 25
+    elseif nprob == 24
 
         n = 2
         x = [10.0, 1.0]
@@ -1225,7 +1216,7 @@ function problem_generator_hs(
         u = c_upper * ones(Float64, n)
         fmin = [ hs1, hs3, hs4 ]
 
-    elseif nprob == 26
+    elseif nprob == 25
 
         n = 2
         x = [10.0, 1.0]
@@ -1233,7 +1224,7 @@ function problem_generator_hs(
         u = [4.0, 3.0]
         fmin = [ hs1, hs3, hs5 ]
 
-    elseif nprob == 27
+    elseif nprob == 26
 
         n = 3
         x = [ 100.0, 12.5, 3.0]
@@ -1241,7 +1232,7 @@ function problem_generator_hs(
         u = [ 100.0, 25.6, 5.0 ]
         fmin = [ hs1, hs3, hs25 ]
 
-    elseif  nprob == 28
+    elseif  nprob == 27
 
         n = 4
         x = [ - 3.0, - 1.0, - 3.0, - 1.0 ]
@@ -1249,7 +1240,7 @@ function problem_generator_hs(
         u = 10.0 * ones(Float64, 4)
         fmin = [ hs1, hs3, hs38 ]
 
-    elseif nprob == 29
+    elseif nprob == 28
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1257,7 +1248,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs3, hs45 ]
 
-    elseif nprob == 30
+    elseif nprob == 29
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1265,7 +1256,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs1, hs3, hs110 ]
 
-    elseif nprob == 31
+    elseif nprob == 30
 
         n = 2
         x = [ 1.125, 0.125 ]
@@ -1273,7 +1264,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0 ]
         fmin = [ hs1, hs4, hs5 ]
 
-    elseif nprob == 32
+    elseif nprob == 31
 
         n = 3
         x = [ 100.0, 12.5, 3.0]
@@ -1281,7 +1272,7 @@ function problem_generator_hs(
         u = [ 100.0, 25.6, 5.0 ]
         fmin = [ hs1, hs4, hs25 ]
 
-    elseif nprob == 33
+    elseif nprob == 32
 
         n = 4
         x = [ 3.0, 1.0, - 3.0, - 1.0 ]
@@ -1289,16 +1280,7 @@ function problem_generator_hs(
         u = 10.0 * ones(Float64, n)
         fmin = [ hs1, hs4, hs38 ]
 
-    elseif nprob == 34
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs1, hs4, hs45 ]
-
-    elseif nprob == 35
+    elseif nprob == 33
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1306,7 +1288,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs1, hs4, hs110 ]
 
-    elseif nprob == 36
+    elseif nprob == 34
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1314,7 +1296,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 10.0, 10.0 ]
         fmin = [ hs1, hs5, hs38 ]
 
-    elseif nprob == 37
+    elseif nprob == 35
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1322,7 +1304,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs5, hs45 ]
 
-    elseif nprob == 38
+    elseif nprob == 36
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1330,7 +1312,7 @@ function problem_generator_hs(
         u = [ 10.0, 10.0, 5.0, 10.0 ]
         fmin = [ hs1, hs25, hs38 ]
 
-    elseif nprob == 39
+    elseif nprob == 37
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1339,7 +1321,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs25, hs45 ]
     
-    elseif nprob == 40
+    elseif nprob == 38
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1347,7 +1329,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs38, hs45 ]
 
-    elseif nprob == 41
+    elseif nprob == 39
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1355,7 +1337,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs1, hs38, hs110 ]
 
-    elseif nprob == 42
+    elseif nprob == 40
 
         n = 2
         x = [ 1.125, 0.125 ]
@@ -1363,7 +1345,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0 ]
         fmin = [ hs3, hs4, hs5 ]
 
-    elseif nprob == 43
+    elseif nprob == 41
 
         n = 3
         x = [ 100.0, 12.5, 3.0]
@@ -1371,7 +1353,7 @@ function problem_generator_hs(
         u = [ 100.0, 25.6, 5.0 ]
         fmin = [ hs3, hs4, hs25 ]
 
-    elseif nprob == 44
+    elseif nprob == 42
 
         n = 4
         x = [ 3.0, 1.0, - 3.0, - 1.0 ]
@@ -1379,16 +1361,7 @@ function problem_generator_hs(
         u = 10.0 * ones(Float64, n)
         fmin = [ hs3, hs4, hs38 ]
 
-    elseif nprob == 45
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs3, hs4, hs45 ]
-
-    elseif nprob == 46
+    elseif nprob == 43
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1396,7 +1369,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs3, hs4, hs110 ]
 
-    elseif nprob == 47
+    elseif nprob == 44
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1404,7 +1377,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 10.0, 10.0 ]
         fmin = [ hs3, hs5, hs38 ]
 
-    elseif nprob == 48
+    elseif nprob == 45
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1412,7 +1385,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs3, hs5, hs45 ]
 
-    elseif nprob == 49
+    elseif nprob == 46
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1420,7 +1393,7 @@ function problem_generator_hs(
         u = [ 10.0, 10.0, 5.0, 10.0 ]
         fmin = [ hs3, hs25, hs38 ]
 
-    elseif nprob == 50
+    elseif nprob == 47
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1429,7 +1402,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs3, hs25, hs45 ]
 
-    elseif nprob == 51
+    elseif nprob == 48
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1437,7 +1410,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs3, hs38, hs45 ]
 
-    elseif nprob == 52
+    elseif nprob == 49
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1445,7 +1418,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs3, hs38, hs110 ]
 
-    elseif nprob == 53
+    elseif nprob == 50
 
         n = 3
         x = [ 100.0, 12.5, 3.0]
@@ -1453,7 +1426,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 5.0 ]
         fmin = [ hs4, hs5, hs25 ]
 
-    elseif nprob == 54
+    elseif nprob == 51
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1461,7 +1434,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 10.0, 10.0 ]
         fmin = [ hs4, hs5, hs38 ]
 
-    elseif nprob == 55
+    elseif nprob == 52
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1469,7 +1442,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs4, hs5, hs45 ]
 
-    elseif nprob == 56
+    elseif nprob == 53
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1477,7 +1450,7 @@ function problem_generator_hs(
         u = [ 10.0, 10.0, 5.0, 10.0 ]
         fmin = [ hs4, hs25, hs38 ]
 
-    elseif nprob == 57
+    elseif nprob == 54
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1486,16 +1459,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs4, hs25, hs45 ]
 
-    elseif nprob == 58
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs4, hs38, hs45 ]
-
-    elseif nprob == 59
+    elseif nprob == 55
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1503,7 +1467,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs4, hs38, hs110 ]
 
-    elseif nprob == 60
+    elseif nprob == 56
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1511,7 +1475,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 5.0, 10.0 ]
         fmin = [ hs5, hs25, hs38 ]
 
-    elseif nprob == 61
+    elseif nprob == 57
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1520,7 +1484,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs5, hs25, hs45 ]
 
-    elseif nprob == 62
+    elseif nprob == 58
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1528,7 +1492,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs5, hs38, hs45 ]
 
-    elseif nprob == 63
+    elseif nprob == 59
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1537,7 +1501,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs25, hs38, hs45 ]
 
-    elseif nprob == 64
+    elseif nprob == 60
 
         n = 2
         x = [ 1.125, 0.125 ]
@@ -1545,7 +1509,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0 ]
         fmin = [ hs1, hs3, hs4, hs5 ]
 
-    elseif nprob == 65
+    elseif nprob == 61
 
         n = 3
         x = [ 100.0, 12.5, 3.0]
@@ -1553,7 +1517,7 @@ function problem_generator_hs(
         u = [ 100.0, 25.6, 5.0 ]
         fmin = [ hs1, hs3, hs4, hs25 ]
 
-    elseif nprob == 66
+    elseif nprob == 62
 
         n = 4
         x = [ 3.0, 1.0, - 3.0, - 1.0 ]
@@ -1561,16 +1525,7 @@ function problem_generator_hs(
         u = 10.0 * ones(Float64, n)
         fmin = [ hs1, hs3, hs4, hs38 ]
 
-    elseif nprob == 67
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs1, hs3, hs4, hs45 ]
-
-    elseif nprob == 68
+    elseif nprob == 63
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1578,7 +1533,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs1, hs3, hs4, hs110 ]
 
-    elseif nprob == 69
+    elseif nprob == 64
 
         n = 3
         x = [ 100.0, 12.5, 3.0]
@@ -1586,7 +1541,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 5.0 ]
         fmin = [ hs1, hs3, hs5, hs25 ]
 
-    elseif nprob == 70
+    elseif nprob == 65
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1594,7 +1549,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 10.0, 10.0 ]
         fmin = [ hs1, hs3, hs5, hs38 ]
 
-    elseif nprob == 71
+    elseif nprob == 66
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1602,7 +1557,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs3, hs5, hs45 ]
 
-    elseif nprob == 72
+    elseif nprob == 67
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1610,7 +1565,7 @@ function problem_generator_hs(
         u = [ 10.0, 10.0, 5.0, 10.0 ]
         fmin = [ hs1, hs3, hs25, hs38 ]
 
-    elseif nprob == 73
+    elseif nprob == 68
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1619,7 +1574,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs3, hs25, hs45 ]
 
-    elseif nprob == 74
+    elseif nprob == 69
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1627,7 +1582,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs3, hs38, hs45 ]
 
-    elseif nprob == 75
+    elseif nprob == 70
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1635,7 +1590,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs1, hs3, hs38, hs110 ]
 
-    elseif nprob == 76
+    elseif nprob == 71
 
         n = 3
         x = [ 100.0, 12.5, 3.0]
@@ -1643,7 +1598,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 5.0 ]
         fmin = [ hs1, hs4, hs5, hs25 ]
 
-    elseif nprob == 77
+    elseif nprob == 72
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1651,16 +1606,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 10.0, 10.0 ]
         fmin = [ hs1, hs4, hs5, hs38 ]
 
-    elseif nprob == 78
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs1, hs4, hs5, hs45 ]
-
-    elseif nprob == 79
+    elseif nprob == 73
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1668,25 +1614,7 @@ function problem_generator_hs(
         u = [ 10.0, 10.0, 5.0, 10.0 ]
         fmin = [ hs1, hs4, hs25, hs38 ]
 
-    elseif nprob == 80
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs1, hs4, hs25, hs45 ]
-
-    elseif nprob == 81
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs1, hs4, hs38, hs45 ]
-
-    elseif nprob == 82
+    elseif nprob == 74
 
         n = 10
         x = 9.0 * ones(Float64, n)
@@ -1694,7 +1622,7 @@ function problem_generator_hs(
         u = 9.999 * ones(Float64, n)
         fmin = [ hs1, hs4, hs38, hs110 ]
 
-    elseif nprob == 83
+    elseif nprob == 75
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1702,7 +1630,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 5.0, 10.0 ]
         fmin = [ hs1, hs5, hs25, hs38 ]
 
-    elseif nprob == 84
+    elseif nprob == 76
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1711,7 +1639,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs5, hs25, hs45 ]
 
-    elseif nprob == 85
+    elseif nprob == 77
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1719,7 +1647,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs5, hs38, hs45 ]
 
-    elseif nprob == 86
+    elseif nprob == 78
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1728,7 +1656,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs1, hs25, hs38, hs45 ]
 
-    elseif nprob == 87
+    elseif nprob == 79
 
         n = 3
         x = [ 100.0, 12.5, 3.0]
@@ -1736,24 +1664,15 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 5.0 ]
         fmin = [ hs3, hs4, hs5, hs25 ]
 
-    elseif nprob == 88
+    elseif nprob == 80
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
         l = [ 1.0, 0.0, -10.0, -10.0 ]
         u = [ 4.0, 3.0, 10.0, 10.0 ]
         fmin = [ hs3, hs4, hs5, hs38 ]
-
-    elseif nprob == 89
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs3, hs4, hs5, hs45 ]
-    
-    elseif nprob == 90
+   
+    elseif nprob == 81
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1761,16 +1680,7 @@ function problem_generator_hs(
         u = [ 10.0, 10.0, 5.0, 10.0 ]
         fmin = [ hs3, hs4, hs25, hs38 ]
 
-    elseif nprob == 91
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs3, hs4, hs25, hs45 ]
-
-    elseif nprob == 92
+    elseif nprob == 82
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1778,7 +1688,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 5.0, 10.0 ]
         fmin = [ hs3, hs5, hs25, hs38 ]
 
-    elseif nprob == 93
+    elseif nprob == 83
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1787,7 +1697,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs3, hs5, hs25, hs45 ]
 
-    elseif nprob == 94
+    elseif nprob == 84
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1795,7 +1705,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs3, hs5, hs38, hs45 ]
 
-    elseif nprob == 95
+    elseif nprob == 85
 
         n = 5
         x = 2.0 * ones(Float64, n)
@@ -1804,7 +1714,7 @@ function problem_generator_hs(
         u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
         fmin = [ hs3, hs25, hs38, hs45 ]
 
-    elseif nprob == 96
+    elseif nprob == 86
 
         n = 4
         x = [ -3.0, -1.0, -3.0, -1.0 ]
@@ -1812,34 +1722,7 @@ function problem_generator_hs(
         u = [ 4.0, 3.0, 5.0, 10.0 ]
         fmin = [ hs4, hs5, hs25, hs38 ]
 
-    elseif nprob == 97
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs4, hs5, hs25, hs45 ]
-
-    elseif nprob == 98
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs4, hs5, hs38, hs45 ]
-
-    elseif nprob == 99
-
-        n = 5
-        x = 2.0 * ones(Float64, n)
-        l = zeros(Float64, n)
-        l[1] = 1.0
-        u = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
-        fmin = [ hs4, hs25, hs38, hs45 ]
-
-    elseif nprob == 100
+    elseif nprob == 87
 
         n = 5
         x = 2.0 * ones(Float64, n)
