@@ -18,7 +18,7 @@ function runtest_hs(
                     )
 
     file = open(filename, "w")
-    total_prob = 100
+    total_prob = 87
 
     for i = 1 : total_prob
 

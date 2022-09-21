@@ -15,7 +15,7 @@ function sol = runGRANSOhs()
     fileID = fopen(file_directory_3, 'w');
 
     % Selects problem 'np'.
-    for np = 1:100
+    for np = 1:87
 
         try
 
