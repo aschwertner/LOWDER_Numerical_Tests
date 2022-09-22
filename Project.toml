@@ -1,4 +1,5 @@
 [deps]
+BenchmarkProfiles = "ecbce9bc-3e5e-569d-9e29-55181f61f8d0"
 CUTEst = "1b53aba6-35b6-5f92-a507-53c67d53f819"
 DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"

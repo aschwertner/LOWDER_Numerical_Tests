@@ -15,6 +15,12 @@ uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 [[Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
+[[BenchmarkProfiles]]
+deps = ["NaNMath", "Printf", "Requires"]
+git-tree-sha1 = "749655bf7497a88f10a939e06537d34e43ee0ca4"
+uuid = "ecbce9bc-3e5e-569d-9e29-55181f61f8d0"
+version = "0.4.0"
+
 [[Bzip2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "19a35467a82e236ff51bc17a3a44b69ef35185a2"
