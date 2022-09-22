@@ -11,7 +11,7 @@ function sol = runGRANSOhs()
 
     % Creates the file that will receive the execution data.
     file_directory_3 = strcat(fileparts(fileparts(current_directory)), ...
-        '/data_files/hs_GRANSO.dat');
+        '/data_files/hs_GRANSO_36.dat');
     fileID = fopen(file_directory_3, 'w');
 
     % Selects problem 'np'.
