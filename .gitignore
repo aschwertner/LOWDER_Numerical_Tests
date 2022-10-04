@@ -32,14 +32,14 @@ src/comparison/SLQPGS/
 src/comparison/.jlcall/
 
 # Folder containing old test files for calling MatLab in Julia
-src/old_tests_matlab/
+src/old_files/
 
 # Folder containing old test data
-data_files/old_tests
+data_files/old_tests/
 
 # Emacs temporary files
 *~
 
 
 # Remove this later:
-# data_files/
+data_files/
