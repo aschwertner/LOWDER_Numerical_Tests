@@ -38,7 +38,7 @@ function runtest_hs(
             p = length(fmin)
 
             # Solves the problem using 'lowder'.
-            sol = LOWDER.lowder(fmin, x, l, u; m = n_points, maxfun = 1100, history_filename = data_filename)
+            sol = LOWDER.lowder(fmin, x, l, u; m = n_points, maxfun = (1100 * p), history_filename = data_filename)
 
             # Saves info about solution.
             nfmin = sol.nf / p
