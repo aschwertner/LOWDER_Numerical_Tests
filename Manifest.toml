@@ -1,5 +1,11 @@
 # This file is machine-generated - editing it directly is not advised
 
+[[AMD]]
+deps = ["Libdl", "LinearAlgebra", "SparseArrays", "Test"]
+git-tree-sha1 = "fc66ffc5cff568936649445f58a55b81eaf9592c"
+uuid = "14f7f29c-3bd6-536c-9a0b-7339e30b5a3e"
+version = "0.4.0"
+
 [[Adapt]]
 deps = ["LinearAlgebra"]
 git-tree-sha1 = "84918055d15b3114ede17ac6a7182f68870c16f7"
@@ -20,6 +26,12 @@ deps = ["NaNMath", "Printf", "Requires"]
 git-tree-sha1 = "749655bf7497a88f10a939e06537d34e43ee0ca4"
 uuid = "ecbce9bc-3e5e-569d-9e29-55181f61f8d0"
 version = "0.4.0"
+
+[[BenchmarkTools]]
+deps = ["JSON", "Logging", "Printf", "Profile", "Statistics", "UUIDs"]
+git-tree-sha1 = "4c10eee4af024676200bc7752e536f858c6b8f93"
+uuid = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+version = "1.3.1"
 
 [[Bzip2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -50,6 +62,18 @@ deps = ["Compat", "LinearAlgebra", "SparseArrays"]
 git-tree-sha1 = "8d954297bc51cc64f15937c2093799c3617b73e4"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
 version = "1.10.0"
+
+[[CodecBzip2]]
+deps = ["Bzip2_jll", "Libdl", "TranscodingStreams"]
+git-tree-sha1 = "2e62a725210ce3c3c2e1a3080190e7ca491f18d7"
+uuid = "523fee87-0ab8-5b00-afb7-3ecf72e48cfd"
+version = "0.7.2"
+
+[[CodecZlib]]
+deps = ["TranscodingStreams", "Zlib_jll"]
+git-tree-sha1 = "ded953804d019afa9a3f98981d99b33e3db7b6da"
+uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
+version = "0.7.0"
 
 [[ColorSchemes]]
 deps = ["ColorTypes", "Colors", "FixedPointNumbers", "Random"]
@@ -331,6 +355,12 @@ git-tree-sha1 = "f6250b16881adf048549549fba48b1161acdac8c"
 uuid = "c1c5ebd0-6772-5130-a774-d5fcae4a789d"
 version = "3.100.1+0"
 
+[[LDLFactorizations]]
+deps = ["AMD", "LinearAlgebra", "SparseArrays", "Test"]
+git-tree-sha1 = "736e01b9b2d443c4e3351aebe551b8a374ab9c05"
+uuid = "40e66cde-538c-5869-a4ad-c39174c6795b"
+version = "0.8.2"
+
 [[LERC_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "bf36f528eec6634efc60d7ec062008f171071434"
@@ -456,6 +486,12 @@ version = "0.5.8"
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 
+[[MathOptInterface]]
+deps = ["BenchmarkTools", "CodecBzip2", "CodecZlib", "DataStructures", "ForwardDiff", "JSON", "LinearAlgebra", "MutableArithmetics", "NaNMath", "OrderedCollections", "Printf", "SparseArrays", "SpecialFunctions", "Test", "Unicode"]
+git-tree-sha1 = "2284cb18c8670fd5c57ad010ce9bd4e2901692d2"
+uuid = "b8f27783-ece8-5eb3-8dc8-9495eed66fee"
+version = "1.8.2"
+
 [[MbedTLS]]
 deps = ["Dates", "MbedTLS_jll", "Random", "Sockets"]
 git-tree-sha1 = "1c38e51c3d08ef2278062ebceade0e46cefc96fe"
@@ -483,6 +519,12 @@ uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 [[MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 
+[[MutableArithmetics]]
+deps = ["LinearAlgebra", "SparseArrays", "Test"]
+git-tree-sha1 = "1d57a7dc42d563ad6b5e95d7a8aebd550e5162c0"
+uuid = "d8a4904e-b15c-11e9-3269-09a3773c0cb0"
+version = "1.0.5"
+
 [[NLPModels]]
 deps = ["FastClosures", "LinearAlgebra", "LinearOperators", "Printf", "SparseArrays"]
 git-tree-sha1 = "e17945150641249d1658637e4faf71a049067d73"
@@ -494,6 +536,18 @@ deps = ["FastClosures", "LinearAlgebra", "LinearOperators", "NLPModels", "Printf
 git-tree-sha1 = "705d402d1fe1837f0c07dd1d7b137b390fb764c5"
 uuid = "e01155f1-5c6f-4375-a9d8-616dd036575f"
 version = "0.4.3"
+
+[[NOMAD]]
+deps = ["Libdl", "LinearAlgebra", "NOMAD_jll", "SparseArrays", "Test", "Tulip"]
+git-tree-sha1 = "309722ba2c0bb4d313dedd35633ae6f2308818e0"
+uuid = "02130f1c-4665-5b79-af82-ff1385104aa0"
+version = "2.2.1"
+
+[[NOMAD_jll]]
+deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "28a8a7e99eb9132deccc19fd01f7854dd7ec2081"
+uuid = "2fc7fd02-576c-576e-a36a-6afce71715da"
+version = "4.0.1+2"
 
 [[NaNMath]]
 git-tree-sha1 = "bfe47e760d60b82b66b61d2d44128b62e3a369fb"
@@ -585,6 +639,16 @@ version = "1.2.2"
 [[Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+
+[[Profile]]
+deps = ["Printf"]
+uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
+
+[[QPSReader]]
+deps = ["Logging", "Pkg"]
+git-tree-sha1 = "374833c0c1fd5cc623278581bf0c8259d7b35f10"
+uuid = "10f199a5-22af-520b-b891-7ce84a7b1bd0"
+version = "0.2.1"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
@@ -702,6 +766,10 @@ git-tree-sha1 = "2ce41e0d042c60ecd131e9fb7154a3bfadbf50d3"
 uuid = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
 version = "0.6.3"
 
+[[SuiteSparse]]
+deps = ["Libdl", "LinearAlgebra", "Serialization", "SparseArrays"]
+uuid = "4607b0f0-06f3-5cda-b6b1-a6196a1729e9"
+
 [[TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
@@ -731,6 +799,18 @@ deps = ["ExprTools", "Printf"]
 git-tree-sha1 = "7cb456f358e8f9d102a8b25e8dfedf58fa5689bc"
 uuid = "a759f4b9-e2f1-59dc-863e-4aeb61b1ea8f"
 version = "0.5.13"
+
+[[TranscodingStreams]]
+deps = ["Random", "Test"]
+git-tree-sha1 = "8a75929dcd3c38611db2f8d08546decb514fcadf"
+uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
+version = "0.9.9"
+
+[[Tulip]]
+deps = ["CodecBzip2", "CodecZlib", "Krylov", "LDLFactorizations", "LinearAlgebra", "LinearOperators", "Logging", "MathOptInterface", "Printf", "QPSReader", "SparseArrays", "SuiteSparse", "TOML", "Test", "TimerOutputs"]
+git-tree-sha1 = "7e9a7a9e4848021908a014865b936a76881ca8df"
+uuid = "6dd1b50a-3aae-11e9-10b5-ef983d2400fa"
+version = "0.9.3"
 
 [[URIs]]
 git-tree-sha1 = "97bbe755a53fe859669cd907f2d96aee8d2c1355"
