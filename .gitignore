@@ -27,6 +27,8 @@ docs/site/
 src/comparison/GRANSO/
 src/comparison/HANSO/
 src/comparison/SLQPGS/
+src/comparison/IBCDFO/
+src/comparison/BenDFO/
 
 # Folder containing MATDaemon extras
 src/comparison/.jlcall/
