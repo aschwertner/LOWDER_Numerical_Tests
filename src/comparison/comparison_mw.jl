@@ -34,7 +34,7 @@ function problem_info(problem_number, data)
     p = data[problem_number, 3]
     rsp = convert( Bool, data[problem_number, 4] )
 
-    return problem_generator_mw( nprob, n, p, rsp)
+    return problem_generator_mw( nprob, n, p, rsp; unconstrained = true)
 
 end
 
