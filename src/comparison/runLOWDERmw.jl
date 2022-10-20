@@ -15,7 +15,7 @@ include("../generators.jl")
 
 function runtest_mw(
                     filename::String;
-                    unconstrained_prob::Bool=false
+                    unconstrained_prob::Bool=true
                     )
 
     directory = pwd()
@@ -29,6 +29,8 @@ function runtest_mw(
     for i = 1 : total_prob
 
         print("Running: $( i ) of $( total_prob ) ... ")
+
+        data_filename = directory * "/data_files/MW/LOWDER/$(i).dat"
 
         # Initializes useful constants
         nprob = problems[i, 1]
@@ -44,14 +46,14 @@ function runtest_mw(
                                     unconstrained = unconstrained_prob )
 
             # Solves the problem using 'lowder'.
-            sol = LOWDER.lowder( fmin, x, l, u; m = n_points, maxit = 100 * n )
+            sol = LOWDER.lowder( fmin, x, l, u; m = n_points, maxfun = (1300 * p), history_filename = data_filename)
 
             # Saves info about solution.
             nfmin = sol.nf / p
             text = @sprintf("%d %d %.2f %d %.4e %.4e %s %s", n, sol.iter, 
                         nfmin, sol.nf, sol.f, sol.stationarity, sol.true_val, 
                         sol.status);
-            println( file, text )
+            println(file, text)
 
             # Display info.
             println("succes!")
@@ -59,7 +61,7 @@ function runtest_mw(
         catch
 
             # Saves info about solution.
-            println( file, "NaN NaN NaN NaN NaN NaN NaN NaN" )
+            println(file, "NaN NaN NaN NaN NaN NaN NaN NaN")
 
             # Display info.
             println("fail!")
@@ -68,7 +70,7 @@ function runtest_mw(
 
     end
 
-    close( file )
+    close(file)
 
 end
 
@@ -85,4 +87,4 @@ filename = directory * "/data_files/mw_LOWDER.dat"
 # Funtion call
 # ------------------------------------------------------------------------------
 
-runtest_mw( filename; unconstrained_prob = false )
+runtest_mw(filename)
