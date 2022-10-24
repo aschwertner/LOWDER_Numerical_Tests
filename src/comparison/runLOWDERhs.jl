@@ -42,9 +42,10 @@ function runtest_hs(
 
             # Saves info about solution.
             nfmin = sol.nf / p
-            text = @sprintf("%d %d %.2f %d %.4e %.4e %s %s", n, sol.iter, 
-                        nfmin, sol.nf, sol.f, sol.stationarity, sol.true_val, 
-                        sol.status)
+            #text = @sprintf("%d %d %.2f %d %.4e %.4e %s %s", n, sol.iter, 
+            #            nfmin, sol.nf, sol.f, sol.stationarity, sol.true_val, 
+            #            sol.status)
+            text = @sprintf("%d success", i);
             println(file, text)
 
             # Display info.
@@ -53,7 +54,10 @@ function runtest_hs(
         catch
 
             # Saves info about solution.
-            println(file, "NaN NaN NaN NaN NaN NaN NaN NaN")
+            #println(file, "NaN NaN NaN NaN NaN NaN NaN NaN")
+
+            text = @sprintf("%d failure", i);
+            println(file, text)
 
             # Display info.
             println("fail!")
@@ -72,7 +76,7 @@ end
 # ------------------------------------------------------------------------------
 
 directory = pwd()
-filename = directory * "/data_files/hs_LOWDER.dat"
+filename = directory * "/data_files/HS/LOWDER.dat"
 
 
 # ------------------------------------------------------------------------------
