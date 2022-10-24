@@ -58,7 +58,7 @@ function runtest_hs(
 
     for i = 1 : total_prob
 
-        print("Running: $( i ) of $( total_prob ) ... ")
+        print("Running: $( i ) of $( total_prob )\n")
 
         data_filename = directory * "/data_files/HS/NOMAD/$(i).dat"
 
@@ -85,7 +85,7 @@ function runtest_hs(
 
         redirect_to_files(data_filename, filename) do
             result = solve(prob, x0)
-            println(filename, "Problem $(i) return a error.")
+            println(filename, "$(i) failure")
         end
 
     end
@@ -97,7 +97,7 @@ end
 # ------------------------------------------------------------------------------
 
 directory = pwd()
-filename = directory * "/data_files/hs_NOMAD.dat"
+filename = directory * "/data_files/HS/NOMAD.dat"
 
 
 # ------------------------------------------------------------------------------
