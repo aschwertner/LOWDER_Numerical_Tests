@@ -70,6 +70,9 @@ function sol = runMSPmw()
 
         end
 
+        % Close file.
+        fclose(fileID_2);
+
     end
 
     % Close file.
