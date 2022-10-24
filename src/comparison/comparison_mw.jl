@@ -98,95 +98,44 @@ f_obj(x) = obj(x, fmin)
 c_obj(x) = cons(x, l, u)
 
 # ------------------------------------------------------------------------------
-# Problem definition (objective function and constraints) for SLQPGS
+# Problem definition (objective function and constraints) for MSP
 # ------------------------------------------------------------------------------
 
-# Defines the objective function and the corresponding function index
+# Defines the objective function
 function obj_function(x, fmin)
 
     m = length(fmin)
-    fx = fmin[1](x)
-    f_index = 1
-    for i=2:m
+    value = zeros(1, m)
 
-        fy = fmin[i](x)
+    for i=1:m
 
-        if fy < fx
-
-            fx = fy
-            f_index = i
-
-        end
+        value[1, i] = fmin[i](x)
 
     end
 
-    return fx
+    return value
 
 end
 
-# Defines the gradient of objective function
-function obj_function_grad(x, fmin)
+function problem_info_bounds(x0, fmin, l, u)
 
-    m = length(fmin)
-    fx = fmin[1](x)
-    f_index = 1
-    for i=2:m
+    n = length(x0)
+    
+    X = zeros(1, n)
+    L = zeros(1, n)
+    U = zeros(1, n)
 
-        fy = fmin[i](x)
+    for i = 1:n
 
-        if fy < fx
-
-            fx = fy
-            f_index = i
-
-        end
+        X[1, i] = x0[i]
+        L[1, i] = l[i]
+        U[1, i] = u[i]
 
     end
 
-    return ForwardDiff.gradient(fmin[f_index], x)
-
-end
-
-# Defines the inequality constraints function
-function cons_function(x, j, l, u)
-
-    d, r = divrem(Int(j), 2)
-
-    if r == 0
-
-        cj = l[d] - x[d]
-
-    else
-
-        cj = x[d+1] - u[d+1]
-
-    end
-
-    return cj
-
-end
-
-# Defines the gradient for inequality constraints function (row vector)
-function cons_function_grad(x, j)
-
-    n = length(x)
-    cj_grad = zeros(n)'
-    d, r = divrem(Int(j), 2)
-
-    if r == 0
-
-        cj_grad[d] = - 1.0
-
-    else
-
-        cj_grad[d+1] = 1.0
-
-    end
-
-    return cj_grad
+    return X, n, length(fmin), L, U    
 
 end
 
 obj_f(x) = obj_function(x, fmin)
-obj_f_grad(x) = obj_function_grad(x, fmin)
-cons_f(x, j) = cons_function(x, j, l, u)
+problem_init_dim_bounds() = problem_info_bounds(x0, fmin, l, u)
