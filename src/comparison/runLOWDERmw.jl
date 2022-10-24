@@ -49,7 +49,7 @@ function runtest_mw(
             sol = LOWDER.lowder( fmin, x, l, u; m = n_points, maxfun = (1300 * p), history_filename = data_filename)
 
             # Saves info about execution.
-            nfmin = sol.nf / p
+            #nfmin = sol.nf / p
             #text = @sprintf("%d %d %.2f %d %.4e %.4e %s %s", n, sol.iter, 
             #            nfmin, sol.nf, sol.f, sol.stationarity, sol.true_val, 
             #            sol.status);
