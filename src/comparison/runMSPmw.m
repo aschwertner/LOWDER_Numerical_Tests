@@ -42,7 +42,7 @@ function sol = runMSPmw()
         
             % Calls the solver.
             [~, ~, h, ~, ~] = manifold_sampling_primal(@pw_minimum, ...
-                @objective_func, x0, l, u, 13, subprob_switch);
+                @objective_func, x0, l, u, 1300, subprob_switch);
            
             % Saves info about log.
             [nRows, ~] = size(h);
@@ -87,6 +87,6 @@ function fvec = objective_func(x)
     file_directory = strcat(current_directory, '/comparison_mw.jl');
 
     % Calculates the objective function and its gradient.
-    fvec = jlcall('obj_f', {x}, 'setup' , file_directory);
+    fvec = jlcall('msp_obj', {x}, 'setup' , file_directory);
 
 end
