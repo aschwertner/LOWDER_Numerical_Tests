@@ -1,4 +1,4 @@
-function [sol, log] = runGRANSOhs()
+function sol = runGRANSOhs()
 
     % Adds the path to the GRANSO solver.
     addpath("GRANSO/");
@@ -13,11 +13,11 @@ function [sol, log] = runGRANSOhs()
     % HS testset.
     directory = fileparts(fileparts(current_directory));
     file_directory_3 = strcat(directory, ...
-        '/data_files/hs_GRANSO.dat');
+        '/data_files/HS/GRANSO.dat');
     fileID = fopen(file_directory_3, 'w');
 
     % Selects problem 'np'.
-    for np = 1:87
+    for np = 1:2
         
         % Creates a file for each problem with log data.
         file_directory_4 = strcat(directory, ...
@@ -33,7 +33,7 @@ function [sol, log] = runGRANSOhs()
 
             % Calculates the starting point, dimension of the problem, and 
             % number of functions that make up fmin.
-            [x0, nvar, nfi] = jlcall('problem_init_dim', {}, 'setup', ...
+            [x0, nvar, ~] = jlcall('problem_init_dim', {}, 'setup', ...
                 file_directory_2);
 
             % Converts the problem start point and dimension to the 
@@ -63,17 +63,24 @@ function [sol, log] = runGRANSOhs()
             log = get_log_fn();
 
             % Computes the number of fi evaluations.
-            fi_evals = sol.fn_evals * nfi;
+            %fi_evals = sol.fn_evals * nfi;
 
             % Saves info about solution.
-            text = [nvar; sol.iters; sol.fn_evals; fi_evals; 
-                sol.most_feasible.f; sol.stat_value; sol.most_feasible.tvi; 
-                sol.termination_code];
-            fprintf(fileID,'%d %d %d %d %.4e %.4e %.4e %d\n', text);
+            %text = [nvar; sol.iters; sol.fn_evals; fi_evals; 
+            %    sol.most_feasible.f; sol.stat_value; sol.most_feasible.tvi; 
+            %    sol.termination_code];
+            %fprintf(fileID,'%d %d %d %d %.4e %.4e %.4e %d\n', text);
 
             % Saves info about log.
-            log_info = [log.f; log.tv; log.fn_evals];
-            fprintf(fileID_2, '%.7e %.7e %d\n', log_info);
+            log_info = [log.fn_evals; log.f];
+            fprintf(fileID_2, '%d %.7e\n', log_info);
+
+            % Saves info about execution.
+            fprintf(fileID, '%d success\n', np);
+
+            % Saves info about log.
+            %log_info = [log.f; log.tv; log.fn_evals];
+            %fprintf(fileID_2, '%.7e %.7e %d\n', log_info);
 
             % Display info.
             text_display = strcat("Running problem ", string(np), ...
@@ -83,7 +90,8 @@ function [sol, log] = runGRANSOhs()
         catch
 
             % Saves info about solution.
-            fprintf(fileID, '%s\n', 'NaN NaN NaN NaN NaN NaN NaN NaN');
+            %fprintf(fileID, '%s\n', 'NaN NaN NaN NaN NaN NaN NaN NaN');
+            fprintf(fileID, '%d failure\n', np);
            
             % Display info.
             text_display = strcat("Running problem ", string(np), ...
@@ -112,7 +120,7 @@ function [f, fgrad] = objective_func(x)
     file_directory = strcat(current_directory, '/comparison_hs.jl');
 
     % Calculates the objective function and its gradient.
-    [f, fgrad] = jlcall('f_obj', {x}, 'setup' , file_directory);
+    [f, fgrad] = jlcall('granso_obj', {x}, 'setup' , file_directory);
 
 end
 
@@ -124,7 +132,7 @@ function [c, cgrad] = ineq_constraints(x)
     file_directory = strcat(current_directory, '/comparison_hs.jl');
 
     % Computes the inequality constraints and its gradient.
-    [c, cgrad] = jlcall('c_obj', {x}, 'setup', file_directory);
+    [c, cgrad] = jlcall('granso_cons', {x}, 'setup', file_directory);
 
 end
 
@@ -138,7 +146,7 @@ function [halt_log_fn, get_log_fn] = makeHaltLogFunctions(maxit)
     index = 0;
     sum_fn_evals = 0;
     f = zeros(1,maxit+1);
-    tv = zeros(1,maxit+1);
+    %tv = zeros(1,maxit+1);
     fn_evals = zeros(1,maxit+1);
 
     function halt = haltLog(    iter, x, penaltyfn_parts, d,        ...
@@ -153,7 +161,7 @@ function [halt_log_fn, get_log_fn] = makeHaltLogFunctions(maxit)
         
         % Stores history data.
         f(index) = penaltyfn_parts.f;
-        tv(index) = penaltyfn_parts.tv;
+        %tv(index) = penaltyfn_parts.tv;
         fn_evals(index) = sum_fn_evals;
         
         % keep this false unless you want to implement a custom termination
@@ -168,7 +176,7 @@ function [halt_log_fn, get_log_fn] = makeHaltLogFunctions(maxit)
 
     function log = getLog()
         log.f   = f(1:index);
-        log.tv  = tv(1:index);
+        %log.tv  = tv(1:index);
         log.fn_evals = fn_evals(1:index);
     end
 

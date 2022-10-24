@@ -71,7 +71,6 @@ function sol = runGRANSOmw()
             %    sol.termination_code];
             %fprintf(fileID,'%d %d %d %d %.4e %.4e %.4e %d\n', text);
 
-
             % Saves info about log.
             log_info = [log.fn_evals; log.f];
             fprintf(fileID_2, '%d %.7e\n', log_info);
@@ -91,6 +90,7 @@ function sol = runGRANSOmw()
         catch
 
             % Saves info about execution.
+            %fprintf(fileID, '%s\n', 'NaN NaN NaN NaN NaN NaN NaN NaN');
             fprintf(fileID, '%d failure\n', np);
             
             % Display info.
@@ -99,6 +99,9 @@ function sol = runGRANSOmw()
             disp(text_display);
 
         end
+
+        % Close file.
+        fclose(fileID_2);
 
     end
 
