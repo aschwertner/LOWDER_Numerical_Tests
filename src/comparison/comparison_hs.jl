@@ -75,3 +75,46 @@ end
 
 granso_obj(x) = obj(x, fmin)
 granso_cons(x) = cons(x, l, u)
+
+# ------------------------------------------------------------------------------
+# Problem definition (objective function and constraints) for MSP
+# ------------------------------------------------------------------------------
+
+# Defines the objective function
+function obj_function(x, fmin)
+
+    m = length(fmin)
+    value = zeros(1, m)
+
+    for i=1:m
+
+        value[1, i] = fmin[i](x)
+
+    end
+
+    return value
+
+end
+
+function problem_info_bounds(x0, fmin, l, u)
+
+    n = length(x0)
+    
+    X = zeros(1, n)
+    L = zeros(1, n)
+    U = zeros(1, n)
+
+    for i = 1:n
+
+        X[1, i] = x0[i]
+        L[1, i] = l[i]
+        U[1, i] = u[i]
+
+    end
+
+    return X, n, length(fmin), L, U    
+
+end
+
+msp_obj(x) = obj_function(x, fmin)
+problem_init_dim_bounds() = problem_info_bounds(x0, fmin, l, u)
