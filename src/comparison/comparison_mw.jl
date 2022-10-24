@@ -94,8 +94,8 @@ function cons(x, l, u)
 
 end
 
-f_obj(x) = obj(x, fmin)
-c_obj(x) = cons(x, l, u)
+granso_obj(x) = obj(x, fmin)
+granso_cons(x) = cons(x, l, u)
 
 # ------------------------------------------------------------------------------
 # Problem definition (objective function and constraints) for MSP
@@ -137,5 +137,5 @@ function problem_info_bounds(x0, fmin, l, u)
 
 end
 
-obj_f(x) = obj_function(x, fmin)
+msp_obj(x) = obj_function(x, fmin)
 problem_init_dim_bounds() = problem_info_bounds(x0, fmin, l, u)
