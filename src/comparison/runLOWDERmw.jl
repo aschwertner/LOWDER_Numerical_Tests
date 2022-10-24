@@ -48,11 +48,12 @@ function runtest_mw(
             # Solves the problem using 'lowder'.
             sol = LOWDER.lowder( fmin, x, l, u; m = n_points, maxfun = (1300 * p), history_filename = data_filename)
 
-            # Saves info about solution.
+            # Saves info about execution.
             nfmin = sol.nf / p
-            text = @sprintf("%d %d %.2f %d %.4e %.4e %s %s", n, sol.iter, 
-                        nfmin, sol.nf, sol.f, sol.stationarity, sol.true_val, 
-                        sol.status);
+            #text = @sprintf("%d %d %.2f %d %.4e %.4e %s %s", n, sol.iter, 
+            #            nfmin, sol.nf, sol.f, sol.stationarity, sol.true_val, 
+            #            sol.status);
+            text = @sprintf("%d success", i);
             println(file, text)
 
             # Display info.
@@ -60,8 +61,11 @@ function runtest_mw(
 
         catch
 
-            # Saves info about solution.
-            println(file, "NaN NaN NaN NaN NaN NaN NaN NaN")
+            # Saves info about execution.
+            #println(file, "NaN NaN NaN NaN NaN NaN NaN NaN")
+            
+            text = @sprintf("%d failure", i);
+            println(file, text)
 
             # Display info.
             println("fail!")
@@ -80,7 +84,7 @@ end
 # ------------------------------------------------------------------------------
 
 directory = pwd()
-filename = directory * "/data_files/mw_LOWDER.dat"
+filename = directory * "/data_files/MW/LOWDER.dat"
 
 
 # ------------------------------------------------------------------------------
