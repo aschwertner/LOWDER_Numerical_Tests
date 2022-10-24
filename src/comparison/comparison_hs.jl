@@ -73,5 +73,5 @@ function cons(x, l, u)
 
 end
 
-f_obj(x) = obj(x, fmin)
-c_obj(x) = cons(x, l, u)
+granso_obj(x) = obj(x, fmin)
+granso_cons(x) = cons(x, l, u)
