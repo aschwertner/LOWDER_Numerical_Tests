@@ -17,7 +17,7 @@ function sol = runGRANSOhs()
     fileID = fopen(file_directory_3, 'w');
 
     % Selects problem 'np'.
-    for np = 1:2
+    for np = 1:87
         
         % Creates a file for each problem with log data.
         file_directory_4 = strcat(directory, ...
