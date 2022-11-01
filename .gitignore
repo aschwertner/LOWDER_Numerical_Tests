@@ -23,12 +23,8 @@ docs/site/
 # environment.
 # Manifest.toml
 
-# Folders containing the algorithms that will be used for comparison: GRANSO, HANSO, SLQPGS.
-src/comparison/GRANSO/
-src/comparison/HANSO/
-src/comparison/SLQPGS/
-src/comparison/MSP/
-src/comparison/BenDFO/
+# Folder containing the algorithms that will be used for comparison: GRANSO, HANSO, SLQPGS.
+src/comparison/solvers/
 
 # Folder containing MATDaemon extras
 src/comparison/.jlcall/
