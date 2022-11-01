@@ -255,9 +255,9 @@ function problem_generator_mw(
 
         fmin = Array{Function}(undef, m)
         fmin[1] = x -> ( x[1] + 10.0 * x[2] ) ^ 2.0
-        fmin[2] = x -> 5.0 * ( x[3] - x[4] ) ^ 2.0
+        fmin[2] = x -> ( sqrt(5.0) * ( x[3] - x[4] ) ) ^ 2.0
         fmin[3] = x -> ( x[2] - 2.0 * x[3] ) ^ 4.0
-        fmin[4] = x -> 10.0 * ( x[1] - x[4] ) ^ 4.0
+        fmin[4] = x -> ( sqrt(10.0) * ( x[1] - x[4] ) ) ^ 4.0
 
     elseif nprob == 7
 
