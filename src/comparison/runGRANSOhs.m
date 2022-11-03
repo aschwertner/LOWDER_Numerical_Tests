@@ -1,45 +1,39 @@
-function sol = runGRANSOhs()
+function [] = runGRANSOhs()
 
     % Adds the path to the GRANSO solver.
-    addpath("GRANSO/");
+    addpath('solvers/GRANSO/');
 
-    % Saves the paths to the directories containing the files 
-    % 'problem_global.jl' and 'comparison_hs.jl'.
-    current_directory = pwd();
-    file_directory_1 = strcat(current_directory, '/problem_global.jl');
-    file_directory_2 = strcat(current_directory, '/comparison_hs.jl');
+    % Adds the path to HS testset problems.
+    addpath('HS/m/');
 
     % Creates the file that will receive the execution data of GRANSO in
     % HS testset.
+    current_directory = pwd();
     directory = fileparts(fileparts(current_directory));
-    file_directory_3 = strcat(directory, ...
-        '/data_files/HS/GRANSO.dat');
-    fileID = fopen(file_directory_3, 'w');
+    file_directory_1 = strcat(directory, '/data_files/HS/GRANSO.dat');
+    fileID = fopen(file_directory_1, 'w');
 
     % Selects problem 'np'.
     for np = 1:87
         
         % Creates a file for each problem with log data.
-        file_directory_4 = strcat(directory, ...
+        file_directory_2 = strcat(directory, ...
             '/data_files/HS/GRANSO/', int2str(np), '.dat');
-        fileID_2 = fopen(file_directory_4, 'w');
+        fileID_2 = fopen(file_directory_2, 'w');
+
+        % Display info.
+        fprintf('Running problem %d ... ', np);
 
         try
 
-            % Sets the problem number 'np' in the global scope of the Julia 
-            % session. Also restart Julia server environment.
-            jlcall('problem', {np}, 'setup', file_directory_1, ...
-                'restart', true);
+            % Calculates the starting point, dimension of the problem.
+            [nvar, x, l, u] = infoHS(np);
 
-            % Calculates the starting point, dimension of the problem, and 
-            % number of functions that make up fmin.
-            [x0, nvar, ~] = jlcall('problem_init_dim', {}, 'setup', ...
-                file_directory_2);
+            % Projects the initial guess in the box.
+            x0 = projection_lowder_like(x, l, u);
 
-            % Converts the problem start point and dimension to the 
-            % 'double' type.
-            nvar = double(nvar);
-            opts.x0 = double(x0);
+            % Sets the starting point.
+            opts.x0 = x0.';
   
             % Sets the equality constraint set to empty.
             eq_constraints = [];
@@ -55,48 +49,36 @@ function sol = runGRANSOhs()
             [halt_log_fn, get_log_fn] = makeHaltLogFunctions(opts.maxit);
             opts.halt_log_fn = halt_log_fn;
 
+            % Sets objective funtion and inequality constraints function.
+            f_objective = @(x) objective_func(np, x);
+            iq_constraints = @(x) constraintsHS(np, x);
+
             % Calls the solver.
-            sol = granso(nvar, @objective_func, @ineq_constraints, ...
+            sol = granso(nvar, f_objective, iq_constraints, ...
                 eq_constraints, opts);
 
             % Gets the log.
             log = get_log_fn();
-
-            % Computes the number of fi evaluations.
-            %fi_evals = sol.fn_evals * nfi;
-
-            % Saves info about solution.
-            %text = [nvar; sol.iters; sol.fn_evals; fi_evals; 
-            %    sol.most_feasible.f; sol.stat_value; sol.most_feasible.tvi; 
-            %    sol.termination_code];
-            %fprintf(fileID,'%d %d %d %d %.4e %.4e %.4e %d\n', text);
 
             % Saves info about log.
             log_info = [log.fn_evals; log.f];
             fprintf(fileID_2, '%d %.7e\n', log_info);
 
             % Saves info about execution.
-            fprintf(fileID, '%d success\n', np);
-
-            % Saves info about log.
-            %log_info = [log.f; log.tv; log.fn_evals];
-            %fprintf(fileID_2, '%.7e %.7e %d\n', log_info);
+            fprintf(fileID, '%d success %.7e [ ', np, sol.most_feasible.f);
+            fprintf(fileID, '%.3e ', sol.most_feasible.x);
+            fprintf(fileID, ']\n');
 
             % Display info.
-            text_display = strcat("Running problem ", string(np), ...
-                " ... success!");
-            disp(text_display);
+            fprintf('succes!\n');
 
         catch
 
             % Saves info about solution.
-            %fprintf(fileID, '%s\n', 'NaN NaN NaN NaN NaN NaN NaN NaN');
-            fprintf(fileID, '%d failure\n', np);
+            fprintf(fileID, '%d failure NaN NaN\n', np);
            
             % Display info.
-            text_display = strcat("Running problem ", string(np), ...
-                " ... fail!");
-            disp(text_display);
+            fprintf('failure!\n')
 
         end
 
@@ -108,32 +90,51 @@ function sol = runGRANSOhs()
     % Close file.
     fclose(fileID);
 
-    disp("Testset complete.")
+    fprintf('Testset complete.\n')
 
 end
 
-function [f, fgrad] = objective_func(x)
+function [f, fgrad] = objective_func(np, x)
 
-    % Saves the path to the directory containing the file 
-    % 'comparison_hs.jl'.
-    current_directory = pwd();
-    file_directory = strcat(current_directory, '/comparison_hs.jl');
+    [f, index] = min(functionsHS(np, x));
+    fgrad = derivativesHS(np, x, index);
 
-    % Calculates the objective function and its gradient.
-    [f, fgrad] = jlcall('granso_obj', {x}, 'setup' , file_directory);
+    %persistent counter   % WARNING: I recommend to avoid this!
+    %if isempty(counter)
+    %    counter = 0;
+    %end
+    %counter = counter + 1;
+    %fprintf("%d %d %.7f ", counter, index, f);
+    %fprintf("%.4f ", x);
+    %fprintf("\n");
+    %pause(5);
 
 end
 
-function [c, cgrad] = ineq_constraints(x)
+function x0 = projection_lowder_like(x, l, u)
 
-    % Saves the path to the directory containing the file 
-    % 'comparison_hs.jl'.
-    current_directory = pwd();
-    file_directory = strcat(current_directory, '/comparison_hs.jl');
-
-    % Computes the inequality constraints and its gradient.
-    [c, cgrad] = jlcall('granso_cons', {x}, 'setup', file_directory);
-
+    d = u - l;
+    delta = min(min(d)/2, 1);
+    n = length(x);
+    x0 = x;
+    
+    for i=1:n
+        lo = l(i) - x(i);
+        uo = u(i) - x(i);
+        if ( lo >= - delta )
+            if ( lo >= 0 )
+                x0(i) = l(i);
+            else
+                x0(i) = l(i) + delta;
+            end
+        elseif ( uo <= delta )
+            if ( uo <= 0 )
+                x0(i) = u(i);
+            else
+                x0(i) = u(i) - delta;
+            end
+        end
+    end
 end
 
 function [halt_log_fn, get_log_fn] = makeHaltLogFunctions(maxit)
@@ -149,11 +150,10 @@ function [halt_log_fn, get_log_fn] = makeHaltLogFunctions(maxit)
     %tv = zeros(1,maxit+1);
     fn_evals = zeros(1,maxit+1);
 
-    function halt = haltLog(    iter, x, penaltyfn_parts, d,        ...
-                                get_BFGS_state_fn, H_regularized,   ...
-                                ls_evals, alpha,                    ...
-                                n_gradients, stat_vec, stat_val,    ...
-                                fallback_level                      )
+    function halt = haltLog(iter, x, penaltyfn_parts, d, ...
+                            get_BFGS_state_fn, H_regularized, ls_evals, ...
+                            alpha, n_gradients, stat_vec, stat_val, ...
+                            fallback_level)
           
         % Increment the index/count. 
         index = index + 1;

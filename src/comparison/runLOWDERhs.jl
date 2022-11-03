@@ -6,8 +6,7 @@ using DelimitedFiles
 using LOWDER
 using Printf
 
-include("../generators.jl")
-
+include("HS/jl/generator_hs.jl")
 
 # ------------------------------------------------------------------------------
 # Run HS testset
@@ -38,14 +37,11 @@ function runtest_hs(
             p = length(fmin)
 
             # Solves the problem using 'lowder'.
-            sol = LOWDER.lowder(fmin, x, l, u; m = n_points, maxfun = (1100 * p), history_filename = data_filename)
+            sol = LOWDER.lowder(fmin, x, l, u; m = n_points, maxfun = 1100, history_filename = data_filename)
 
             # Saves info about solution.
-            nfmin = sol.nf / p
-            #text = @sprintf("%d %d %.2f %d %.4e %.4e %s %s", n, sol.iter, 
-            #            nfmin, sol.nf, sol.f, sol.stationarity, sol.true_val, 
-            #            sol.status)
-            text = @sprintf("%d success", i);
+            text = @sprintf("%d success %.7e %s ", i, sol.f, sol.true_val) * "[" * join([@sprintf "%.3e" x for x in sol.solution], ", ") * "] "
+
             println(file, text)
 
             # Display info.
@@ -53,14 +49,11 @@ function runtest_hs(
 
         catch
 
-            # Saves info about solution.
-            #println(file, "NaN NaN NaN NaN NaN NaN NaN NaN")
-
-            text = @sprintf("%d failure", i);
+            text = @sprintf("%d failure NaN NaN NaN", i)
             println(file, text)
 
             # Display info.
-            println("fail!")
+            println("failure!")
 
         end
 

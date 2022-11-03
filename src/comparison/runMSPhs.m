@@ -1,48 +1,47 @@
-function sol = runMSPhs()
+function [] = runMSPhs()
 
     % Adds the path to the MSP (Manifold Sampling Primal) solver.
-    addpath("MSP/manifold_sampling/m/");
-    addpath("MSP/manifold_sampling/m/h_examples");
-    addpath("MSP/pounders/matlab");
-
+    addpath('solvers/MSP/manifold_sampling/m/');
+    addpath('solvers/MSP/manifold_sampling/m/h_examples');
+    addpath('solvers/MSP/pounders/matlab');
     subprob_switch = 'linprog';
 
-    % Saves the paths to the directories containing the files 
-    % 'problem_global.jl' and 'comparison_hs.jl'.
-    current_directory = pwd();
-    file_directory_1 = strcat(current_directory, '/problem_global.jl');
-    file_directory_2 = strcat(current_directory, '/comparison_hs.jl');
+    % Adds the path to HS testset problems.
+    addpath('HS/m/');
 
     % Creates the file that will receive the execution data of MSP in
     % MW testset.
+    current_directory = pwd();
     directory = fileparts(fileparts(current_directory));
-    file_directory_3 = strcat(directory, ...
-        '/data_files/HS/MSP.dat');
+    file_directory_3 = strcat(directory, '/data_files/HS/MSP.dat');
     fileID = fopen(file_directory_3, 'w');
     
     % Selects problem 'np'.
-    for np = 1:2
+    for np = 1:87
+
+        % Creates a file for each problem with log data.
+        file_directory_4 = strcat(directory, '/data_files/HS/MSP/', ...
+            int2str(np), '.dat');
+        fileID_2 = fopen(file_directory_4, 'w');
+
+        % Display info.
+        fprintf('Running problem %d ... \n', np);
 
         try
+      
+            % Calculates the starting point, and the upper and lower 
+            % bounds. 
+            [~, x, l, u] = infoHS(np);
 
-            % Creates a file for each problem with log data.
-            file_directory_4 = strcat(directory, ...
-                '/data_files/HS/MSP/', int2str(np), '.dat');
-            fileID_2 = fopen(file_directory_4, 'w');
-    
-            % Sets the problem number 'np' in the global scope of the Julia 
-            % session. Also restart Julia server environment.
-            jlcall('problem', {np}, 'setup', file_directory_1, ...
-                'restart', true);
-        
-            % Calculates the starting point, dimension of the problem, and 
-            % number of functions that make up fmin.
-            [x0, ~, ~, l, u] = jlcall('problem_init_dim_bounds', {}, ...
-                'setup', file_directory_2);
+            % Projects the original starting point (Bobiqa like).
+            x0 = projection_lowder_like(x, l, u);
+            
+            % Sets objective funtion.
+            objective_func = @(x) functionsHS(np, x);
         
             % Calls the solver.
-            [~, ~, h, ~, ~] = manifold_sampling_primal(@pw_minimum, ...
-                @objective_func, x0, l, u, 1100, subprob_switch);
+            [X, ~, h, ~, ~] = manifold_sampling_primal(@pw_minimum, ...
+                objective_func, x0, l, u, 1100, subprob_switch);
            
             % Saves info about log.
             [nRows, ~] = size(h);
@@ -51,22 +50,20 @@ function sol = runMSPhs()
             fprintf(fileID_2, '%d %.7e\n', log_info.');
 
             % Saves info about execution.
-            fprintf(fileID, '%d success\n', np);
+            fprintf(fileID, '%d success %.7e [ ', np, h(end));
+            fprintf(fileID, '%.3e ', X(end, :));
+            fprintf(fileID, ']\n');
 
             % Display info.
-            text_display = strcat("Running problem ", string(np), ...
-                " ... success!");
-            disp(text_display);
+            fprintf('succes!\n');
 
         catch
 
-            % Saves info about execution.
-            fprintf(fileID, '%d failure\n', np);
-            
+            % Saves info about solution.
+            fprintf(fileID, '%d failure NaN NaN\n', np);
+           
             % Display info.
-            text_display = strcat("Running problem ", string(np), ...
-                " ... failure!");
-            disp(text_display);
+            fprintf('failure!\n')
 
         end
 
@@ -78,18 +75,32 @@ function sol = runMSPhs()
     % Close file.
     fclose(fileID);
 
-    disp("Testset complete.")
+    fprintf('Testset complete.\n')
 
 end
 
-function fvec = objective_func(x)
+function x0 = projection_lowder_like(x, l, u)
 
-    % Saves the path to the directory containing the file 
-    % 'comparison_hs.jl'.
-    current_directory = pwd();
-    file_directory = strcat(current_directory, '/comparison_hs.jl');
-
-    % Calculates the objective function and its gradient.
-    fvec = jlcall('msp_obj', {x}, 'setup' , file_directory);
-
+    d = u - l;
+    delta = min(min(d)/2, 1);
+    n = length(x);
+    x0 = x;
+    
+    for i=1:n
+        lo = l(i) - x(i);
+        uo = u(i) - x(i);
+        if ( lo >= - delta )
+            if ( lo >= 0 )
+                x0(i) = l(i);
+            else
+                x0(i) = l(i) + delta;
+            end
+        elseif ( uo <= delta )
+            if ( uo <= 0 )
+                x0(i) = u(i);
+            else
+                x0(i) = u(i) - delta;
+            end
+        end
+    end
 end
