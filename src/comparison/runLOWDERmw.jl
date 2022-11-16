@@ -77,7 +77,8 @@ function runtest_mw(
             new_fmin = f_obj(fmin, fileID_2)
 
             # Solves the problem using 'lowder'.
-            sol = LOWDER.lowder( new_fmin, x, l, u; m = n_points, maxfun = (1300 * p))
+            #sol = LOWDER.lowder( new_fmin, x, l, u; m = n_points, maxfun = (1300 * p))
+            sol = LOWDER.lowder( new_fmin, x, l, u; m = n_points, maxfun = (1300 * p), δmin = 1.0e-8)
 
             # Saves info about execution.
             text = @sprintf("%d success %.7e %s ", i, sol.f, sol.true_val) * "[" * join([@sprintf "%.3e" x for x in sol.solution], ", ") * "] "

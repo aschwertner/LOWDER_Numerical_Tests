@@ -67,7 +67,8 @@ function runtest_hs(
             p = length(fmin)
 
             # Solves the problem using 'lowder'.
-            sol = LOWDER.lowder(new_fmin, x, l, u; m = n_points, maxfun = p * 1100)
+            #sol = LOWDER.lowder(new_fmin, x, l, u; m = n_points, maxfun = p * 1100)
+            sol = LOWDER.lowder(new_fmin, x, l, u; m = n_points, maxfun = p * 1100, δmin = 1.0e-8)
 
             # Saves info about solution.
             text = @sprintf("%d success %.7e %s ", i, sol.f, sol.true_val) * "[" * join([@sprintf "%.3e" x for x in sol.solution], ", ") * "] "
