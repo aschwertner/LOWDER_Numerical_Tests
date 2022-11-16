@@ -6,7 +6,35 @@ using DelimitedFiles
 using LOWDER
 using Printf
 
-include("../generators.jl")
+include("MW/jl/generator_mw.jl")
+
+
+# ------------------------------------------------------------------------------
+# Auxiliary functions
+# ------------------------------------------------------------------------------
+
+function f_obj(fmin, fileID)
+
+    m = length(fmin)
+    new_fmin = Array{Function}(undef, m)
+
+    for i in eachindex(fmin)
+        new_fmin[i] = x -> print_eval(x, fmin[i], fileID)
+    end
+
+    return new_fmin
+
+end
+
+function print_eval(x, f, fileID)
+
+    fx = f(x)
+
+    println(fileID, @sprintf("%.7e", fx))
+
+    return fx
+    
+end
 
 
 # ------------------------------------------------------------------------------
@@ -19,18 +47,19 @@ function runtest_mw(
                     )
 
     directory = pwd()
-    source_filename = directory * "/src/CUTEr_selected_problems.dat"
+    source_filename = directory * "/src/comparison/MW/CUTEr_selected_problems.dat"
 
     problems = readdlm( source_filename, Int64 )
     total_prob = size( problems )[ 1 ]
 
-    file = open( filename, "w" )
+    fileID_1 = open( filename, "w" )
 
     for i = 1 : total_prob
 
         print("Running: $( i ) of $( total_prob ) ... ")
 
         data_filename = directory * "/data_files/MW/LOWDER/$(i).dat"
+        fileID_2 = open(data_filename, "w")
 
         # Initializes useful constants
         nprob = problems[i, 1]
@@ -45,16 +74,15 @@ function runtest_mw(
             ( x, l, u, fmin ) = problem_generator_mw( nprob, n, p, rsp; 
                                     unconstrained = unconstrained_prob )
 
+            new_fmin = f_obj(fmin, fileID_2)
+
             # Solves the problem using 'lowder'.
-            sol = LOWDER.lowder( fmin, x, l, u; m = n_points, maxfun = (1300 * p), history_filename = data_filename)
+            sol = LOWDER.lowder( new_fmin, x, l, u; m = n_points, maxfun = (1300 * p))
 
             # Saves info about execution.
-            #nfmin = sol.nf / p
-            #text = @sprintf("%d %d %.2f %d %.4e %.4e %s %s", n, sol.iter, 
-            #            nfmin, sol.nf, sol.f, sol.stationarity, sol.true_val, 
-            #            sol.status);
-            text = @sprintf("%d success", i);
-            println(file, text)
+            text = @sprintf("%d success %.7e %s ", i, sol.f, sol.true_val) * "[" * join([@sprintf "%.3e" x for x in sol.solution], ", ") * "] "
+
+            println(fileID_1, text)
 
             # Display info.
             println("succes!")
@@ -62,19 +90,19 @@ function runtest_mw(
         catch
 
             # Saves info about execution.
-            #println(file, "NaN NaN NaN NaN NaN NaN NaN NaN")
-            
-            text = @sprintf("%d failure", i);
-            println(file, text)
+            text = @sprintf("%d failure NaN NaN NaN", i)
+            println(fileID_1, text)
 
             # Display info.
-            println("fail!")
+            println("failure!")
 
         end
 
+        close(fileID_2)
+
     end
 
-    close(file)
+    close(fileID_1)
 
 end
 
