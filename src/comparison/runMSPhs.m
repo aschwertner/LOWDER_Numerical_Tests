@@ -57,7 +57,7 @@ function [] = runMSPhs()
             fprintf(fileID, '%d failure NaN NaN\n', np);
            
             % Display info.
-            fprintf('failure!\n')
+            fprintf('failure!\n');
 
         end
 
@@ -69,7 +69,7 @@ function [] = runMSPhs()
     % Close file.
     fclose(fileID);
 
-    fprintf('Testset complete.\n')
+    fprintf('Testset complete.\n');
 
 end
 
