@@ -1,72 +1,70 @@
-function sol = runMSPmw()
+function [] = runMSPmw()
 
     % Adds the path to the MSP (Manifold Sampling Primal) solver.
-    addpath("MSP/manifold_sampling/m/");
-    addpath("MSP/manifold_sampling/m/h_examples");
-    addpath("MSP/pounders/matlab");
-
+    addpath('solvers/MSP/manifold_sampling/m/');
+    addpath('solvers/MSP/manifold_sampling/m/h_examples');
+    addpath('solvers/MSP/pounders/matlab');
     subprob_switch = 'linprog';
 
-    % Saves the paths to the directories containing the files 
-    % 'problem_global.jl' and 'comparison_mw.jl'.
-    current_directory = pwd();
-    file_directory_1 = strcat(current_directory, '/problem_global.jl');
-    file_directory_2 = strcat(current_directory, '/comparison_mw.jl');
+    % Adds the path to HS testset problems.
+    addpath('MW');
+    addpath('MW/m/');
+
+    % Reads the file with the dimensions of the problems.
+    mw_selected = readmatrix("CUTEr_selected_problems.dat");
 
     % Creates the file that will receive the execution data of MSP in
     % MW testset.
+    current_directory = pwd();
     directory = fileparts(fileparts(current_directory));
-    file_directory_3 = strcat(directory, ...
-        '/data_files/MW/MSP.dat');
+    file_directory_3 = strcat(directory, '/data_files/MW/MSP.dat');
     fileID = fopen(file_directory_3, 'w');
     
     % Selects problem 'np'.
     for np = 1:53
 
-        try
+        % Creates a file for each problem with log data.
+        file_directory_4 = strcat(directory, '/data_files/MW/MSP/', ...
+            int2str(np), '.dat');
+        fileID_2 = fopen(file_directory_4, 'w');
 
-            % Creates a file for each problem with log data.
-            file_directory_4 = strcat(directory, ...
-                '/data_files/MW/MSP/', int2str(np), '.dat');
-            fileID_2 = fopen(file_directory_4, 'w');
+        % Display info.
+        fprintf('Running problem %d ... \n', np);
+
+        %Problem info
+        k = mw_selected(np, 1);
+        n = mw_selected(np, 2);
+        m = mw_selected(np, 3);
+        s = mw_selected(np, 4);
+
+        try
     
-            % Sets the problem number 'np' in the global scope of the Julia 
-            % session. Also restart Julia server environment.
-            jlcall('problem', {np}, 'setup', file_directory_1, ...
-                'restart', true);
-        
-            % Calculates the starting point, dimension of the problem, and 
-            % number of functions that make up fmin.
-            [x0, ~, ~, l, u] = jlcall('problem_init_dim_bounds', {}, ...
-                'setup', file_directory_2);
+            % Calculates the starting point, and the upper and lower 
+            % bounds.
+            [x0, l, u] = infoMW(k, n, s);
+
+            % Sets objective funtion.
+            objective_func = @(x) new_obj(x, k, n, m, fileID_2);
         
             % Calls the solver.
-            [~, ~, h, ~, ~] = manifold_sampling_primal(@pw_minimum, ...
-                @objective_func, x0, l, u, 1300, subprob_switch);
+            [X, ~, h, ~, ~] = manifold_sampling_primal(@pw_minimum, ...
+                objective_func, x0, l, u, 1300, subprob_switch);
            
-            % Saves info about log.
-            [nRows, ~] = size(h);
-            nf_eval = linspace(1,nRows, nRows).';
-            log_info = [nf_eval, h];
-            fprintf(fileID_2, '%d %.7e\n', log_info.');
-
             % Saves info about execution.
-            fprintf(fileID, '%d success\n', np);
+            fprintf(fileID, '%d success %.7e [ ', np, h(end));
+            fprintf(fileID, '%.3e ', X(end, :));
+            fprintf(fileID, ']\n');
 
             % Display info.
-            text_display = strcat("Running problem ", string(np), ...
-                " ... success!");
-            disp(text_display);
+            fprintf('succes!\n');
 
         catch
 
-            % Saves info about execution.
-            fprintf(fileID, '%d failure\n', np);
-            
+            % Saves info about solution.
+            fprintf(fileID, '%d failure NaN NaN\n', np);
+           
             % Display info.
-            text_display = strcat("Running problem ", string(np), ...
-                " ... failure!");
-            disp(text_display);
+            fprintf('failure!\n');
 
         end
 
@@ -78,18 +76,13 @@ function sol = runMSPmw()
     % Close file.
     fclose(fileID);
 
-    disp("Testset complete.")
+    fprintf('Testset complete.\n');
 
 end
 
-function fvec = objective_func(x)
+function obj = new_obj(x, k, n, m, fileID)
 
-    % Saves the path to the directory containing the file 
-    % 'comparison_mw.jl'.
-    current_directory = pwd();
-    file_directory = strcat(current_directory, '/comparison_mw.jl');
-
-    % Calculates the objective function and its gradient.
-    fvec = jlcall('msp_obj', {x}, 'setup' , file_directory);
+    obj = functionsMW(k, n, m, x);
+    fprintf(fileID, '%.7e\n', min(obj));
 
 end
