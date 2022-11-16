@@ -104,6 +104,7 @@ function runtest_hs(
             # Defines the NOMAD problem.
             prob = NomadProblem(n, 1, ["OBJ"], eval_fct; lower_bound=l, upper_bound=u)
             prob.options.max_bb_eval = 1100
+            prob.options.display_degree = 0
 
             # Calls the solver.
             result = solve(prob, x0)
@@ -113,10 +114,16 @@ function runtest_hs(
             text = @sprintf("%d success %.7e ", i, fsol) * "[" * join([@sprintf "%.3e" x for x in result.x_best_feas], ", ") * "] "
             println(fileID_1, text)
 
+            # Display info.
+            println("succes!")
+
         catch
 
             text = @sprintf("%d failure NaN NaN NaN", i)
             println(fileID_1, text)
+
+            # Display info.
+            println("failure!")
 
         end
 
