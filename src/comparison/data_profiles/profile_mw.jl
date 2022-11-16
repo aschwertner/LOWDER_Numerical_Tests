@@ -64,7 +64,7 @@ function create_matrix_mw(n_prob, n_feval, solvers_names, P)
                 data_filename = directory * "/data_files/MW/$(solvers_names[solver])/$(problem).dat"
                 data_raw = readdlm(data_filename)
 
-                n_reg = length(data_raw)
+                n_reg = min(length(data_raw), n_feval)
 
                 for i=1:n_reg
                     data[Int(factor * i), problem, solver] = data_raw[i]
@@ -72,7 +72,7 @@ function create_matrix_mw(n_prob, n_feval, solvers_names, P)
                
             catch
 
-                println("ERROR: Unable to read the file $(problem).dat of solver $(solver).")
+                println("ERROR: Unable to read the file $(problem).dat of solver $(solvers_names[solver]).")
 
             end
 
