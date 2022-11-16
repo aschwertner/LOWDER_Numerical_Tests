@@ -28,9 +28,7 @@ function obj(x, fmin, fileID)
 
     end
 
-    global nf_count += 1
-
-    println(fileID, @sprintf("%d %.7e", nf_count, fx))
+    println(fileID, @sprintf("%.7e", fx))
 
     return fx
 
@@ -76,8 +74,6 @@ function runtest_hs(
     directory = pwd()
 
     for i = 1 : total_prob
-
-        global nf_count = 0
 
         print("Running: $( i ) of $( total_prob )\n")
 

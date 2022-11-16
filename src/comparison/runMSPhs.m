@@ -37,18 +37,12 @@ function [] = runMSPhs()
             x0 = projection_lowder_like(x, l, u);
             
             % Sets objective funtion.
-            objective_func = @(x) functionsHS(np, x);
+            objective_func = @(x) new_obj(x, np, fileID_2);
         
             % Calls the solver.
             [X, ~, h, ~, ~] = manifold_sampling_primal(@pw_minimum, ...
                 objective_func, x0, l, u, 1100, subprob_switch);
            
-            % Saves info about log.
-            [nRows, ~] = size(h);
-            nf_eval = linspace(1,nRows, nRows).';
-            log_info = [nf_eval, h];
-            fprintf(fileID_2, '%d %.7e\n', log_info.');
-
             % Saves info about execution.
             fprintf(fileID, '%d success %.7e [ ', np, h(end));
             fprintf(fileID, '%.3e ', X(end, :));
@@ -76,6 +70,13 @@ function [] = runMSPhs()
     fclose(fileID);
 
     fprintf('Testset complete.\n')
+
+end
+
+function obj = new_obj(x, np, fileID)
+
+    obj = functionsHS(np, x);
+    fprintf(fileID, '%.7e\n', min(obj));
 
 end
 
