@@ -4,7 +4,10 @@ function problem_generator_qd(num_fi::Int64, data::Vector{Float64})
 
     n = 10
     nn = length(data)
-    u = 10.0 * ones(10)
+
+    x_ini = 5.0 * ones(n)
+    l = zeros(n)
+    u = 10.0 * ones(n)
 
     fmin = Vector{Function}(undef, num_fi)
 
@@ -31,6 +34,6 @@ function problem_generator_qd(num_fi::Int64, data::Vector{Float64})
 
     fmin[num_fi] = x -> dot(c, x)
 
-    return fmin
+    return x_ini, l, u, fmin
 
 end
