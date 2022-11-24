@@ -1,7 +1,7 @@
 import Random: seed!
 using DelimitedFiles
 
-function generate_quad_testset(num_fi::Int64; dim::Int64=10, num_prob::Int64=20, sd::Int64 = 0)
+function generate_quad_testset(num_fi::Int64; dim::Int64=10, num_prob::Int64=50, sd::Int64 = 0)
 
     directory = pwd()
     filename = directory * "/src/comparison/QD/problems/testset_$(num_fi).dat"
