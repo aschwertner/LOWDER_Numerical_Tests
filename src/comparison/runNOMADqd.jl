@@ -78,7 +78,7 @@ function runtest_qd(
 
     for i = 1 : total_prob
 
-        print("Running: $( i ) of $( total_prob )\n")
+        print("Testset QD $(num_fi) - Running: $( i ) of $( total_prob )\n")
 
         data_filename = directory * "/data_files/QD/$(num_fi)/NOMAD/$(i).dat"
         fileID_2 = open(data_filename, "w")

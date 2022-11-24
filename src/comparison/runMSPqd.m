@@ -44,7 +44,7 @@ function [] = runMSPqd()
             fileID_2 = fopen(file_directory_4, 'w');
     
             % Display info.
-            fprintf('Running problem %d ... \n', np);
+            fprintf('Testset QD %d - Running problem %d ... \n', num_fi, np);
     
             try
           
