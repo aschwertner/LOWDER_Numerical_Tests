@@ -14,7 +14,7 @@ include("new_data_profile.jl")
 function generate_data_profile_qd(num_fi)
 
     # Number of problemas.
-    n_prob = 20
+    n_prob = 50
 
     # Dimension of the problems.
     n = 10
@@ -33,19 +33,22 @@ function generate_data_profile_qd(num_fi)
     # Computes the cost matrix H.
     H = create_matrix_qd(num_fi, n_prob, n_feval, solvers_names)
 
-    # Generates the data profiles for the specified gates.
+    # Gates.
     gate = [1.0e-1, 1.0e-3, 1.0e-5, 1.0e-7]
+
+    # Generates the data profiles for the specified gates.
     #for i in eachindex(gate)
-    #    data_profile(H, N, solvers_names; τ=gate[i])
-    #    savefig("./images/data_profile_qd_$(num_fi)_$(i).png")
+    #    data_profile(H, N, P, solvers_names; τ=gate[i])
+    #    savefig("./images/QD/$(num_fi)/data_profile_qd_$(i).png")
     #end
 
+    # Generates the data profiles for the specified gates (one single figure).
     images_vec = Vector(undef, length(gate))
     for i in eachindex(gate)
         images_vec[i] = data_profile(H, N, P, solvers_names; τ=gate[i])
     end
     plot(images_vec[1], images_vec[2], images_vec[3], images_vec[4], layout = length(gate), size=(1200, 800))
-    savefig("./images/new_version/data_profile_qd_ts_$(num_fi).png")
+    savefig("./images/data_profile_qd_ts_$(num_fi).png")
 
 end
 
@@ -67,15 +70,21 @@ function create_matrix_qd(num_fi, n_prob, n_feval, solvers_names)
            
             try
 
-                if data_solver[problem] == "success"
+                #if data_solver[problem] == "success"
 
-                    data_filename = directory * "/data_files/QD/$(num_fi)/$(solvers_names[solver])/$(problem).dat"
-                    data_raw = readdlm(data_filename)
+                #    data_filename = directory * "/data_files/QD/$(num_fi)/$(solvers_names[solver])/$(problem).dat"
+                #    data_raw = readdlm(data_filename)
 
-                    n_reg = min(length(data_raw), n_feval)
-                    data[1:n_reg, problem, solver] = data_raw[1:n_reg]
+                #    n_reg = min(length(data_raw), n_feval)
+                #    data[1:n_reg, problem, solver] = data_raw[1:n_reg]
                     
-                end
+                #end
+
+                data_filename = directory * "/data_files/QD/$(num_fi)/$(solvers_names[solver])/$(problem).dat"
+                data_raw = readdlm(data_filename)
+
+                n_reg = min(length(data_raw), n_feval)
+                data[1:n_reg, problem, solver] = data_raw[1:n_reg]
                
             catch
 
