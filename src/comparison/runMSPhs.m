@@ -83,7 +83,8 @@ end
 function x0 = projection_lowder_like(x, l, u)
 
     d = u - l;
-    delta = min(min(d)/2, 1);
+    % delta = min(min(d)/2, 1);
+    delta = min(min(d)/2, 10);
     n = length(x);
     x0 = x;
     

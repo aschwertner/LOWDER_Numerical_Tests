@@ -37,7 +37,8 @@ end
 
 function projection_lowder_like!(x, l, u)
 
-    δ = min(minimum(u - l) / 2.0, 1.0)
+    #δ = min(minimum(u - l) / 2.0, 1.0)
+    δ = min(minimum(u - l) / 2.0, 10.0)
     n = length(x)
 
     for i=1:n
