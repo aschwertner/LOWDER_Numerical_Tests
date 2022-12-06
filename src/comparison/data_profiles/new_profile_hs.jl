@@ -34,18 +34,18 @@ function generate_data_profile_hs()
     gate = [1.0e-1, 1.0e-3, 1.0e-5, 1.0e-7]
 
     # Generates the data profiles for the specified gates.
-    #for i in eachindex(gate)
-    #    data_profile(H, N, P, solvers_names; τ=gate[i])
-    #    savefig("./images/HS/data_profile_hs_$(i).png")
-    #end
+    for i in eachindex(gate)
+        data_profile(H, N, P, solvers_names; τ=gate[i])
+        savefig("./images/HS/data_profile_hs_$(i).png")
+    end
 
     # Generates the data profiles for the specified gates (one single figure).
-    images_vec = Vector(undef, length(gate))
-    for i in eachindex(gate)
-        images_vec[i] = data_profile(H, N, P, solvers_names; τ=gate[i])
-    end
-    plot(images_vec[1], images_vec[2], images_vec[3], images_vec[4], layout = length(gate), size=(1200, 800))
-    savefig("./images/data_profile_hs.png")
+    #images_vec = Vector(undef, length(gate))
+    #for i in eachindex(gate)
+    #    images_vec[i] = data_profile(H, N, P, solvers_names; τ=gate[i])
+    #end
+    #plot(images_vec[1], images_vec[2], images_vec[3], images_vec[4], layout = length(gate), size=(1200, 800))
+    #savefig("./images/data_profile_hs.png")
 
 end
 
