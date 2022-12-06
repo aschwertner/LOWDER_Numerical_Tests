@@ -10,7 +10,9 @@ function generate_quad_testset(num_fi::Int64; dim::Int64=10, num_prob::Int64=50,
     sd = 38904589 + sd
     seed!(sd)
 
-    dvec = (2 * num_fi - 1) * dim
+    #dvec = (2 * num_fi - 1) * dim #versão com a última função linear
+
+    dvec = 2 * num_fi * dim
 
     data = rand(num_prob, dvec)
 
