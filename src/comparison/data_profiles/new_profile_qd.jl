@@ -38,7 +38,7 @@ function generate_data_profile_qd(num_fi)
 
     # Generates the data profiles for the specified gates.
     for i in eachindex(gate)
-        data_profile(H, N, P, solvers_names; τ=gate[i])
+        data_profile(H, N, P, ["LOWDER", "MS-P", "NOMAD"]; τ=gate[i])
         savefig("./images/QD/$(num_fi)/data_profile_qd_$(i).png")
     end
 

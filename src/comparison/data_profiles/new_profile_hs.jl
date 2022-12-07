@@ -35,7 +35,7 @@ function generate_data_profile_hs()
 
     # Generates the data profiles for the specified gates.
     for i in eachindex(gate)
-        data_profile(H, N, P, solvers_names; τ=gate[i])
+        data_profile(H, N, P, ["LOWDER", "MS-P", "NOMAD"]; τ=gate[i])
         savefig("./images/HS/data_profile_hs_$(i).png")
     end
 
