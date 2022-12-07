@@ -63,7 +63,8 @@ function data_profile(
     for i = 1:ns    
         plot!(plt, T[:, i], xs, t = :steppost, label = labels[i], linecolor = colors[mod(i, nc)], lw = 2)
     end
-    xlims!(0, 1.1 * max_data)
+    #xlims!(0, 1.1 * max_data)
+    xlims!(0, 100)
     ylims!(0, 1)
 
 end
