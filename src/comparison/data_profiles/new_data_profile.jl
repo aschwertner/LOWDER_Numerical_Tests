@@ -54,15 +54,17 @@ function data_profile(
     T[isnan.(T)] .= 2.0 * max_data
     T .= sort(T, dims = 1)
 
-    # Define um conjunto de cores e marcadores
+    # Define um conjunto de cores e estilos de linha
     colors = [:black, :red, :blue, :orange, :yellow]
     nc = length(colors)
+    line_style = [:solid, :dash, :dashdot, :dot, :dashdotdot]
+    nl = length(line_style)
 
     # Desenha o data profile.
     xs = [1:np;] / np
     plt = plot(title = "τ = " * @sprintf("%.1e", τ), xlabel = "Number of simplex gradients", ylabel = "Proportion of problems")
     for i = 1:ns    
-        plot!(plt, T[:, i], xs, t = :steppost, label = labels[i], linecolor = colors[mod(i, nc)], lw = 2)
+        plot!(plt, T[:, i], xs, t = :steppost, label = labels[i], linecolor = colors[mod(i, nc)], line = line_style[mod(i, nl)], lw = 2, dpi=300)
     end
     #xlims!(0, 1.1 * max_data)
     xlims!(0, 100)
