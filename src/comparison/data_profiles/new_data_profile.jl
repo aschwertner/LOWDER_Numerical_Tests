@@ -26,8 +26,9 @@ function data_profile(
         end
     end
 
-    # Calcula o valor inicial e o menor valor encontrado para cada problema.
-    prob_max = H[1, :, 1]
+    # Calcula o valor inicial e o menor valor encontrado para cada problema. 
+    # Usamos dados do segundo solver MS-P, pois LOWDER considera avaliações de fi, ao inves da função objetivo fmin.
+    prob_max = H[1, :, 2]
     prob_min = minimum(minimum(H, dims = 1), dims = 3)
 
     # Determina o custo (ex: avaliações de função objetivo) necessário para atingir o valor de corte, para cada problema e solucionador.
